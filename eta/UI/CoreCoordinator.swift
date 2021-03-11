@@ -19,6 +19,7 @@ class CoreCoordinator: Coordinator {
     
     let authorizationService = FirebaseAuthorizationService()
     let cloudService = LocalCloudService()
+    let databaseService = FirebaseDatabaseService()
     
     let disposeBag = DisposeBag()
     
@@ -32,10 +33,14 @@ class CoreCoordinator: Coordinator {
     
     var rootViewController: UIViewController {
         let viewController = authenticationViewController()
-        
         navigationController = UINavigationController(rootViewController: viewController)
         navigationController.isNavigationBarHidden = true
         navigationController.isToolbarHidden = true
+        
+        if authorizationService.currentUser != nil {
+            navigationController.pushViewController(sessionsViewController(), animated: false)
+        }
+        
         return navigationController
     }
     
@@ -44,28 +49,36 @@ class CoreCoordinator: Coordinator {
         let viewModel = AuthenticationViewModel(authorizationService: authorizationService)
         viewModel.didAuthorizeHandler = { [weak self] in
             guard let self = self else { return }
-            viewController.navigationController?.pushViewController(self.sessionsViewController(), animated: true)
+            self.navigationController.pushViewController(self.sessionsViewController(), animated: true)
         }
         
         viewController.viewModel = viewModel
         return viewController
     }
     
-    func sessionsViewController() -> UIViewController {
+    func sessionsViewController() -> UIViewController {        
         let viewController = SessionsViewController.instantiateFromStoryboard(storyboard)
-        let viewModel = SessionsViewModel(authorizationService: authorizationService)
+        let viewModel = SessionsViewModel(authorizationService: authorizationService, databaseService: databaseService)
         viewModel.showUserMenuHandler = { [weak self] in
             guard let self = self else { return }
-            viewController.navigationController?.pushViewController(self.userViewController(), animated: true)
+            self.navigationController.present(self.userViewController(), animated: true)
         }
         viewController.viewModel = viewModel
         
         let shareViewController = ShareViewController.instantiateFromStoryboard(storyboard)
         let shareViewModel = ShareViewModel(authorizationService: authorizationService, cloudService: cloudService)
+        shareViewModel.presentHandler = { [weak viewModel] in
+            viewModel?.setShowingShareView(true)
+        }
+        shareViewModel.dismissHandler = { [weak viewModel] in
+            viewModel?.setShowingShareView(false)
+        }
         shareViewController.viewModel = shareViewModel
-        
-        viewController.shareViewController = shareViewController
-        
+
+        viewModel.embedShareViewControllerHandler = {
+            return shareViewController
+        }
+
         return viewController
     }
     

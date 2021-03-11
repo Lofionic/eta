@@ -17,6 +17,7 @@ final class UserViewController: UIViewController, StoryboardViewController {
     var viewModel: UserViewModel!
     
     @IBAction func didTapSignOut() {
+        presentingViewController?.dismiss(animated: true)
         viewModel.signOut()
     }
 }

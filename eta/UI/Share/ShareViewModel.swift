@@ -7,19 +7,43 @@ import RxSwift
 
 final class ShareViewModel: ViewModel {
     
+    let presentationState: Driver<ShareViewPresentationState>
     let isWorking: Driver<Bool>
+    
+    private let presentationStateRelay = BehaviorRelay(value: ShareViewPresentationState.minimized)
     private let isWorkingRelay = BehaviorRelay(value: false)
     
     let authorizationService: AuthorizationService
     let cloudService: CloudService
+    let theme: Theme
     
+    let strings = Strings()
     let disposeBag = DisposeBag()
     
-    init(authorizationService: AuthorizationService, cloudService: CloudService) {
+    var presentHandler: () -> Void = {}
+    var dismissHandler: () -> Void = {}
+    
+    init(authorizationService: AuthorizationService, cloudService: CloudService, theme: Theme = .light) {
         self.authorizationService = authorizationService
         self.cloudService = cloudService
+        self.theme = theme
         
+        presentationState = presentationStateRelay.asDriver()
         isWorking = isWorkingRelay.asDriver()
+    }
+    
+    func present() {
+        setPresentationState(.fullscreen)
+        presentHandler()
+    }
+    
+    func dismiss() {
+        setPresentationState(.minimized)
+        dismissHandler()
+    }
+    
+    func setPresentationState(_ presentationState: ShareViewPresentationState) {
+        presentationStateRelay.accept(presentationState)
     }
 }
 
@@ -43,5 +67,11 @@ extension ShareViewModel {
                 print(error)
                 isWorkingRelay?.accept(false)
             }).disposed(by: disposeBag)
+    }
+}
+
+extension ShareViewModel {
+    struct Strings {
+        let shareMyETA = "Share my ETA"
     }
 }

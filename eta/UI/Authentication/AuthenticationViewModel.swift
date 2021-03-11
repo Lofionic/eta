@@ -28,14 +28,15 @@ class AuthenticationViewModel: ViewModel {
     
     let strings = Strings()
     let authorizationService: AuthorizationService
+    let theme: Theme
    
     let isContinueEnabled: Driver<Bool>
     let isWorking: Driver<Bool>
     let passwordRelayTextContentType: Driver<UITextContentType>
      
     let userStatus = BehaviorRelay<AuthenticationUserStatus>(value: .existingUser)
-    let emailRelay = BehaviorRelay<Email?>(value: nil)
-    let passwordRelay = BehaviorRelay<Password?>(value: nil)
+    let emailRelay = BehaviorRelay<Email?>(value: "test@test.com")
+    let passwordRelay = BehaviorRelay<Password?>(value: "123456")
     
     let setFirstResponder: Driver<AuthenticationFirstResponder>
     
@@ -47,13 +48,18 @@ class AuthenticationViewModel: ViewModel {
     
     private let disposeBag = DisposeBag()
     
-    init(authorizationService: AuthorizationService) {
+    init(authorizationService: AuthorizationService, theme: Theme = Theme.light) {
         self.authorizationService = authorizationService
+        self.theme = theme
         
-        let isEmailValid = emailRelay.map { email -> Bool in
-            if let email = email, !email.isEmpty {
-                return true
-            }
+        let isEmailValid = emailRelay
+            .observe(on: ConcurrentDispatchQueueScheduler(qos: .userInteractive))
+            .regex(Constants.emailRegex)
+            .subscribe(on: MainScheduler.instance)
+            .map { email -> Bool in
+                if let email = email, !email.isEmpty {
+                    return true
+                }
             return false
         }
         
@@ -102,11 +108,6 @@ extension AuthenticationViewModel {
         }
     }
     
-    func clearAll() {
-        emailRelay.accept(nil)
-        passwordRelay.accept(nil)
-    }
-    
     private func signIn(withEmail email: Email, password: Password) {
         performOperation(authorizationService.signIn(withEmail: email, password: password))
     }
@@ -131,8 +132,8 @@ extension AuthenticationViewModel {
     
     private func operationDidFail(_ error: Error) {
         print(error)
-        clearAll()
-        setFirstResponderRelay.accept(.email)
+		passwordRelay.accept(nil)
+		setFirstResponderRelay.accept(.password)
     }
 }
 
@@ -144,6 +145,10 @@ extension AuthenticationViewModel {
         let emailAddress = "Email"
         let password = "Password"
         
-        let `continue` = "Continue"
+        let signIn = "Sign In"
     }
+	
+	struct Constants {
+		static let emailRegex = #"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9][0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])"#
+	}
 }

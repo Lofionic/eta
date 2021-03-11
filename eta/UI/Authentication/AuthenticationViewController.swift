@@ -16,40 +16,49 @@ class AuthenticationViewController: UIViewController, StoryboardViewController {
     @IBOutlet private var emailTextField: UITextField!
     @IBOutlet private var passwordTextField: UITextField!
     @IBOutlet private var continueButton: Button!
-    @IBOutlet private var contentView: UIView!
+    
+    @IBOutlet private var avoidKeyboardConstraint: NSLayoutConstraint!
     
     var viewModel: AuthenticationViewModel!
     
-    private(set) lazy var keyboardHeightConstraint = keyboardLayoutGuide.heightAnchor.constraint(equalToConstant: 0)
-    let keyboardLayoutGuide = UILayoutGuide()
+    
     let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
+        super.viewDidLoad()
+        
         emailTextField.delegate = self
         passwordTextField.delegate = self
         
         registerForKeyboardNotifications()
         
-        view.addLayoutGuide(keyboardLayoutGuide)
-        NSLayoutConstraint.activate([
-            keyboardHeightConstraint,
-            keyboardLayoutGuide.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            contentView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor),
-        ])
-        
         setBinds()
         setStrings()
+        setupStyling()
     }
     
+    private func setupStyling() {
+        let theme = viewModel.theme
+        view.backgroundColor = UIColor.systemGray6
+        view.tintColor = theme.colors.tint
+        
+        emailTextField.font = theme.fonts.body
+        passwordTextField.font = theme.fonts.body
+        
+        segmentedControl.selectedSegmentTintColor = theme.colors.primary
+    }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationController?.delegate = self
+        
         emailTextField.becomeFirstResponder()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        emailTextField.clear()
-        passwordTextField.clear()
+        super.viewDidDisappear(animated)
+//        emailTextField.clear()
+//        passwordTextField.clear()
     }
 }
 
@@ -64,7 +73,7 @@ private extension AuthenticationViewController {
             {
                 return
             }
-            self.keyboardHeightConstraint.constant = keyboardRect.height
+            self.avoidKeyboardConstraint.constant = keyboardRect.height
             UIView.animate(withDuration: animationDuration) {
                 self.view.layoutIfNeeded()
             }
@@ -78,7 +87,7 @@ private extension AuthenticationViewController {
                 return
             }
             
-            self.keyboardHeightConstraint.constant = 0
+            self.avoidKeyboardConstraint.constant = 0
             UIView.animate(withDuration: animationDuration) {
                 self.view.layoutIfNeeded()
             }
@@ -127,7 +136,7 @@ private extension AuthenticationViewController {
         segmentedControl.setTitle(strings.newUser, forSegmentAt: 1)
         emailTextField.placeholder = strings.emailAddress
         passwordTextField.placeholder = strings.password
-        continueButton.setTitle(strings.continue, for: .normal)
+        continueButton.setTitle(strings.signIn, for: .normal)
     }
 }
 
@@ -146,6 +155,21 @@ extension AuthenticationViewController: UITextFieldDelegate {
     }
 }
 
+extension AuthenticationViewController: UINavigationControllerDelegate {
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard fromVC.isKind(of: Self.self) else { return nil }
+        
+        let continueFrame = continueButton.bounds
+        let startingRect = CGRect(
+            center: continueButton.convert(continueFrame.mid, to: view),
+            size: CGSize(width: continueFrame.height, height: continueFrame.height))
+        
+        
+        return IrisTransition(startRectangle: startingRect)
+    }
+}
+
 extension UITextField {
     func clear() {
         text = nil
@@ -154,11 +178,11 @@ extension UITextField {
 }
 
 private extension Notification {
-
+    
     var keyboardAnimationDuration: TimeInterval? {
         (userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
     }
-
+    
     var keyboardRect: CGRect? {
         userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
     }
