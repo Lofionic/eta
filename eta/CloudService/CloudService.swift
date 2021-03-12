@@ -6,6 +6,7 @@ import RxSwift
 
 typealias UserIdentifier = String
 typealias SessionIdentifier = String
+typealias Username = String
 
 struct LocationUpdate {
     struct Location {
@@ -20,9 +21,6 @@ struct LocationUpdate {
 }
 
 protocol CloudService {
-    func startSession(
-        userIdentifier: UserIdentifier,
-        friendIdentifier: UserIdentifier,
-        expiresAfter: Double) -> Completable
-    func postLocationUpdate(userIdentifier: UserIdentifier, sessionIdentifier: SessionIdentifier, locationUpdate: LocationUpdate) -> Completable
+    func createSession(userIdentifier: UserIdentifier) -> Single<SessionIdentifier?>
+    func registerUser(_ userIdentifier: UserIdentifier, email: Email) -> Completable
 }

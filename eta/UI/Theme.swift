@@ -32,7 +32,7 @@ struct Theme {
         let colors = Colors(
             primary: UIColor.systemGray,
             background: UIColor.systemGray6,
-            tint: UIColor(hexString: "#407ADF"))
+            tint: UIColor(hexString: "#779D73"))
         
         return Theme(colors: colors, fonts: Fonts())
     }()

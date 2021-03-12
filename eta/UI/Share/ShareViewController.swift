@@ -21,6 +21,7 @@ final class ShareViewController: UIViewController, StoryboardViewController {
     @IBOutlet private(set) var bodyView: UIView!
     @IBOutlet private var presentButton: Button!
     @IBOutlet private var dismissButton: UIButton!
+    @IBOutlet private var sessionLinkLabel: UILabel!
     
     let disposeBag = DisposeBag()
     
@@ -43,7 +44,8 @@ final class ShareViewController: UIViewController, StoryboardViewController {
             viewModel.presentationState.skip(1).drive(onNext: { [weak self] presentationState in
                 self?.setPresentationState(presentationState, animated: true)
             }),
-            viewModel.isWorking.drive(presentButton.rx.isAnimatingActivityIndicator)
+            viewModel.isWorking.drive(presentButton.rx.isAnimatingActivityIndicator),
+            viewModel.sessionLink.drive(sessionLinkLabel.rx.text),
         ])
     }
     
@@ -92,6 +94,10 @@ final class ShareViewController: UIViewController, StoryboardViewController {
 }
 
 extension ShareViewController {
+    @IBAction func didTapStart(_ sender: Any) {
+        viewModel.startSession()
+    }
+    
     @IBAction func didTapPresent(_ sender: Any) {
         viewModel.present()
     }

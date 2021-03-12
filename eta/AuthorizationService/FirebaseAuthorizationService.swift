@@ -11,17 +11,20 @@ import RxSwift
 
 final class FirebaseAuthorizationService: AuthorizationService {
     
-    let stateDidChange: Observable<User?>
-    let stateDidChangeSubject = PublishRelay<User?>()
+    let stateDidChange: Observable<String?>
+    let stateDidChangeSubject = PublishRelay<FirebaseAuth.User?>()
     
     let stateDidChangeListenerHandle: AuthStateDidChangeListenerHandle
     
-    var currentUser: User? {
-        return Auth.auth().currentUser
+    var currentUser: String? {
+        return Auth.auth().currentUser?.uid
     }
     
     init() {
-        stateDidChange = stateDidChangeSubject.asObservable()
+        stateDidChange = stateDidChangeSubject
+            .map { $0?.uid }
+            .asObservable()
+        
         let stateDidChangeListenerHandle = Auth.auth().addStateDidChangeListener { [weak stateDidChangeSubject] _, user in
             stateDidChangeSubject?.accept(user)
         }
@@ -33,26 +36,26 @@ final class FirebaseAuthorizationService: AuthorizationService {
         Auth.auth().removeStateDidChangeListener(stateDidChangeListenerHandle)
     }
     
-    func createUser(withEmail email: Email, password: Password) -> Single<User> {
+    func createUser(withEmail email: Email, password: Password) -> Single<String> {
         return Single.create { single in
             Auth.auth().createUser(withEmail: email, password: password) { result, error in
                 if let error = error {
                     single(.failure(error))
                 } else if let result = result {
-                    single(.success(result.user))
+                    single(.success(result.user.uid))
                 }
             }
             return Disposables.create()
         }
     }
     
-    func signIn(withEmail email: Email, password: Password) -> Single<User> {
+    func signIn(withEmail email: Email, password: Password) -> Single<String> {
         return Single.create { single in
             Auth.auth().signIn(withEmail: email, password: password) { result, error in
                 if let error = error {
                     single(.failure(error))
                 } else if let result = result {
-                    single(.success(result.user))
+                    single(.success(result.user.uid))
                 }
             }
             return Disposables.create()
@@ -72,4 +75,3 @@ final class FirebaseAuthorizationService: AuthorizationService {
     }
 }
 
-extension FirebaseAuth.User: User {}

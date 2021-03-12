@@ -9,13 +9,17 @@ import Foundation
 
 import RxSwift
 
-enum DatabaseEvent<T> {
+enum DataEvent<T> {
     case added(T)
     case changed(T)
     case removed(T)
     case moved(T)
 }
 
-protocol DatabaseService {
-    func sessions(userIdentifier: UserIdentifier) -> Observable<DatabaseEvent<Session>>
+protocol SessionService {
+    func sessions(userIdentifier: UserIdentifier) -> Observable<DataEvent<Session>>
+}
+
+protocol UserService {
+    func getUser(_ userIdentifier: UserIdentifier) -> Single<User>
 }

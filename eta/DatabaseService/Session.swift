@@ -10,7 +10,7 @@ import Foundation
 struct Session: Codable {
     let identifier: SessionIdentifier
     let userIdentifier: UserIdentifier
-    let friendIdentifier: UserIdentifier
+    let friendIdentifier: UserIdentifier?
     let status: Int
     
     let startDate: TimeInterval

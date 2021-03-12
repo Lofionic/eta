@@ -67,7 +67,7 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
         }).disposed(by: disposeBag)
     }
     
-    private func handleSessionEvent(_ event: DatabaseEvent<Session>) {
+    private func handleSessionEvent(_ event: DataEvent<Session>) {
         switch event {
         case .added(let session):
             collectionView.performBatchUpdates() {

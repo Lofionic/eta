@@ -4,7 +4,6 @@
 
 import UIKit
 
-@IBDesignable
 final class HandleView: UIView {
     
     private let handleSize = CGSize(width: 44, height: 4)
@@ -30,5 +29,4 @@ final class HandleView: UIView {
         context.addPath(path)
         context.fillPath()
     }
-
 }

@@ -9,23 +9,23 @@ import RxSwift
 final class SessionsViewModel: ViewModel {
     
     let isShowingShareView: Driver<Bool>
-    let sessionsEvents: Driver<DatabaseEvent<Session>>
+    let sessionsEvents: Driver<DataEvent<Session>>
     
     var showUserMenuHandler: () -> Void = {}
     var embedShareViewControllerHandler: () -> UIViewController? = { nil }
     
     let authorizationService: AuthorizationService
-    let databaseService: DatabaseService
+    let sessionService: SessionService
     let theme: Theme
     
     private let isShowingShareViewRelay = BehaviorRelay(value: false)
-    private let sessionsEventsRelay = PublishRelay<DatabaseEvent<Session>>()
+    private let sessionsEventsRelay = PublishRelay<DataEvent<Session>>()
     
     private let disposeBag = DisposeBag()
     
-    init(authorizationService: AuthorizationService, databaseService: DatabaseService, theme: Theme = Theme.light) {
+    init(authorizationService: AuthorizationService, sessionService: SessionService, theme: Theme = Theme.light) {
         self.authorizationService = authorizationService
-        self.databaseService = databaseService
+        self.sessionService = sessionService
         self.theme = theme
         
         isShowingShareView = isShowingShareViewRelay.asDriver()
@@ -39,9 +39,9 @@ final class SessionsViewModel: ViewModel {
     }
     
     func subscribeToSessions() {
-        guard let user = authorizationService.currentUser else { return }
-        databaseService
-            .sessions(userIdentifier: user.uid)
+        guard let userIdentifier = authorizationService.currentUser else { return }
+        sessionService
+            .sessions(userIdentifier: userIdentifier)
             .subscribe(onNext: { [weak self] event in
                 self?.sessionsEventsRelay.accept(event)
             })

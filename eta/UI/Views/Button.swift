@@ -7,12 +7,11 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-@IBDesignable
 final class Button: UIButton {
     
     private let activityIndicator = UIActivityIndicatorView()
-	private let maskLayer = MaskLayer()
-	
+    private let maskLayer = MaskLayer()
+    
     override var backgroundColor: UIColor? {
         didSet{
             activityIndicator.backgroundColor = backgroundColor
@@ -30,7 +29,7 @@ final class Button: UIButton {
     }
     
     private func commonSetup() {
-		layer.mask = maskLayer
+        layer.mask = maskLayer
         
         activityIndicator.frame = bounds
         activityIndicator.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -47,6 +46,8 @@ final class Button: UIButton {
     public func applyTheme(_ theme: Theme) {
         backgroundColor = theme.colors.tint
         titleLabel?.font = theme.fonts.button
+		
+		tintColor = UIColor.white
     }
     
     override func tintColorDidChange() {
@@ -56,40 +57,40 @@ final class Button: UIButton {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-
+        
         bringSubviewToFront(activityIndicator)
-		
-		maskLayer.frame = layer.bounds
+        
+        maskLayer.frame = layer.bounds
     }
 }
 
 extension Button {
     func startAnimatingActivityIndicator() {
-		guard !activityIndicator.isAnimating else { return }
+        guard !activityIndicator.isAnimating else { return }
         activityIndicator.startAnimating()
-		
-		maskLayer.removeAnimation(forKey: "animation")
-		let animation = CABasicAnimation(keyPath: "animationProgress")
-		animation.fromValue = maskLayer.presentation()?.animationProgress ?? 0
-		animation.toValue = 1
-		animation.duration = 0.2
-		animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-		maskLayer.add(animation, forKey: "lfResizeMaskAnimation")
-		maskLayer.animationProgress = 1
+        
+        maskLayer.removeAnimation(forKey: "animation")
+        let animation = CABasicAnimation(keyPath: "animationProgress")
+        animation.fromValue = maskLayer.presentation()?.animationProgress ?? 0
+        animation.toValue = 1
+        animation.duration = 0.2
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        maskLayer.add(animation, forKey: "lfResizeMaskAnimation")
+        maskLayer.animationProgress = 1
     }
     
     func stopAnimatingActivityIndicator() {
-		guard activityIndicator.isAnimating else { return }
+        guard activityIndicator.isAnimating else { return }
         activityIndicator.stopAnimating()
-
-		maskLayer.removeAnimation(forKey: "animation")
-		let animation = CABasicAnimation(keyPath: "animationProgress")
-		animation.fromValue = maskLayer.presentation()?.animationProgress ?? 1
-		animation.toValue = 0
-		animation.duration = 0.2
-		animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
-		maskLayer.add(animation, forKey: "lfResizeMaskAnimation")
-		maskLayer.animationProgress = 0
+        
+        maskLayer.removeAnimation(forKey: "animation")
+        let animation = CABasicAnimation(keyPath: "animationProgress")
+        animation.fromValue = maskLayer.presentation()?.animationProgress ?? 1
+        animation.toValue = 0
+        animation.duration = 0.2
+        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
+        maskLayer.add(animation, forKey: "lfResizeMaskAnimation")
+        maskLayer.animationProgress = 0
     }
 }
 
@@ -113,38 +114,38 @@ extension Reactive where Base == Button {
 }
 
 private final class MaskLayer: CALayer {
-	
-	@NSManaged var animationProgress: CGFloat
-	
-	override var needsDisplayOnBoundsChange: Bool {
-		get { return true }
-		set {}
-	}
-	
-	override class func needsDisplay(forKey key: String) -> Bool {
-		if key == "animationProgress" {
-			return true
-		}
-		
-		return super.needsDisplay(forKey: key)
-	}
-	
-	override func draw(in ctx: CGContext) {		
-		let openRect = bounds
-		
-		let smallestDimension = min(bounds.width, bounds.height)
-		let ellipseRadius = smallestDimension / 2
-		
-		let closedRect = CGRect(
-			origin: CGPoint(x: bounds.midX - ellipseRadius, y: bounds.midY - ellipseRadius),
-			size: CGSize(width: smallestDimension, height: smallestDimension))
-		
-		let rect = openRect.lerp(closedRect, value: animationProgress)
-		let cornerRadius = CGFloat(4).lerp(ellipseRadius, value: animationProgress)
-		
-		let path = CGPath(roundedRect: rect, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
-		ctx.setFillColor(UIColor.white.cgColor)
-		ctx.addPath(path)
-		ctx.fillPath()
-	}
+    
+    @NSManaged var animationProgress: CGFloat
+    
+    override var needsDisplayOnBoundsChange: Bool {
+        get { return true }
+        set {}
+    }
+    
+    override class func needsDisplay(forKey key: String) -> Bool {
+        if key == "animationProgress" {
+            return true
+        }
+        
+        return super.needsDisplay(forKey: key)
+    }
+    
+    override func draw(in ctx: CGContext) {		
+        let openRect = bounds
+        
+        let smallestDimension = min(bounds.width, bounds.height)
+        let ellipseRadius = smallestDimension / 2
+        
+        let closedRect = CGRect(
+            origin: CGPoint(x: bounds.midX - ellipseRadius, y: bounds.midY - ellipseRadius),
+            size: CGSize(width: smallestDimension, height: smallestDimension))
+        
+        let rect = openRect.lerp(closedRect, value: animationProgress)
+        let cornerRadius = CGFloat(4).lerp(ellipseRadius, value: animationProgress)
+        
+        let path = CGPath(roundedRect: rect, cornerWidth: cornerRadius, cornerHeight: cornerRadius, transform: nil)
+        ctx.setFillColor(UIColor.white.cgColor)
+        ctx.addPath(path)
+        ctx.fillPath()
+    }
 }

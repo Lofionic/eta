@@ -8,7 +8,7 @@ private struct PostResponse: Decodable {
     let name: String
 }
 
-final class LocalCloudService: HTTPService, CloudService {
+final class LocalCloudService: HTTPService {
     
     init() {
         super.init(scheme: .http, domain: "127.0.0.1", port: 8080)
