@@ -8,19 +8,31 @@
 
 /* Begin PBXBuildFile section */
 		19954773C5839D36ACFDBF6B /* Pods_eta.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 749BE74B22B8B2EBE6FE6503 /* Pods_eta.framework */; };
+		830780882600288E00D576C3 /* FirebaseDatabaseService+Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830780872600288E00D576C3 /* FirebaseDatabaseService+Session.swift */; };
+		8307808E2600292800D576C3 /* FirebaseDatabaseService+User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8307808D2600292800D576C3 /* FirebaseDatabaseService+User.swift */; };
+		83078094260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83078093260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift */; };
+		8307809A26002A6100D576C3 /* SnapshotDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8307809926002A6100D576C3 /* SnapshotDecodable.swift */; };
 		8309B8F325F9746A00B7B326 /* FirebaseDatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B8F225F9746A00B7B326 /* FirebaseDatabaseService.swift */; };
 		8309B90A25F98CC500B7B326 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B90925F98CC500B7B326 /* Session.swift */; };
 		8309B90E25F98CF600B7B326 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B90D25F98CF600B7B326 /* DatabaseService.swift */; };
 		8309B91425F99D1F00B7B326 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B91325F99D1F00B7B326 /* SessionCell.swift */; };
+		8311899225FFF8390052853A /* PendingSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8311899125FFF8390052853A /* PendingSessionController.swift */; };
 		8348931425F7BB4B002FAC0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8348931325F7BB4B002FAC0F /* GoogleService-Info.plist */; };
 		8348937A25F8F08D002FAC0F /* CGInterpolates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348937925F8F08D002FAC0F /* CGInterpolates.swift */; };
 		8357F6EC25F0351400BF10A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8357F6EB25F0351400BF10A5 /* AppDelegate.swift */; };
 		8357F6F325F0351400BF10A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8357F6F125F0351400BF10A5 /* Main.storyboard */; };
 		8357F6F525F0351600BF10A5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8357F6F425F0351600BF10A5 /* Assets.xcassets */; };
 		8357F6F825F0351600BF10A5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8357F6F625F0351600BF10A5 /* LaunchScreen.storyboard */; };
-		8357F73525F03F1F00BF10A5 /* MapQuestServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8357F73425F03F1F00BF10A5 /* MapQuestServiceTests.swift */; };
+		8375016E26029633006964E8 /* LocationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8375016D26029633006964E8 /* LocationController.swift */; };
+		837501752602ADE6006964E8 /* Chippenham.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837501742602ADE6006964E8 /* Chippenham.gpx */; };
+		8375017B2602AE13006964E8 /* Bath.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8375017A2602AE13006964E8 /* Bath.gpx */; };
+		8375017F2602AE41006964E8 /* Cardiff.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8375017E2602AE41006964E8 /* Cardiff.gpx */; };
+		837501852602AE64006964E8 /* Bristol.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837501842602AE64006964E8 /* Bristol.gpx */; };
+		837501892602B8AF006964E8 /* Warmley.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837501882602B8AF006964E8 /* Warmley.gpx */; };
 		838B1AC225F941A90055B9C6 /* IrisTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B1AC125F941A90055B9C6 /* IrisTransition.swift */; };
 		838B1AC825F9432F0055B9C6 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B1AC725F9432F0055B9C6 /* CGRect.swift */; };
+		83960F8E2601040B005A93D3 /* PendingSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83960F8D2601040B005A93D3 /* PendingSessionTests.swift */; };
+		8396BFF82606268300B6DD6A /* DalyCity.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8396BFF72606268300B6DD6A /* DalyCity.gpx */; };
 		83A2BF7A25FA452B00613B34 /* ScrollingBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BF7925FA452B00613B34 /* ScrollingBackground.swift */; };
 		83A2BF7E25FA58EB00613B34 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BF7D25FA58EB00613B34 /* RegisterViewController.swift */; };
 		83A2BF8425FA591700613B34 /* RegisterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BF8325FA591700613B34 /* RegisterViewModel.swift */; };
@@ -28,6 +40,7 @@
 		83A2BF9C25FA974B00613B34 /* Regex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BF9B25FA974B00613B34 /* Regex.swift */; };
 		83A2BFA225FAA39F00613B34 /* UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BFA125FAA39F00613B34 /* UIKit.swift */; };
 		83A2BFAA25FAB12500613B34 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A2BFA925FAB12500613B34 /* User.swift */; };
+		83A8F16F26040D9D008EFF8E /* SessionCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A8F16E26040D9D008EFF8E /* SessionCellViewModel.swift */; };
 		83C1C68625F4CFC800C3AD5F /* SessionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1C68525F4CFC800C3AD5F /* SessionsViewController.swift */; };
 		83C1C68C25F4CFD200C3AD5F /* SessionsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1C68B25F4CFD200C3AD5F /* SessionsViewModel.swift */; };
 		83C1C69325F4D64A00C3AD5F /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1C69225F4D64A00C3AD5F /* UserViewController.swift */; };
@@ -39,7 +52,7 @@
 		83C1C6C225F5426C00C3AD5F /* ShareViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1C6C125F5426C00C3AD5F /* ShareViewModel.swift */; };
 		83C1C6C625F547A500C3AD5F /* Tray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C1C6C525F547A500C3AD5F /* Tray.swift */; };
 		83D267AC25F6B9B100951E36 /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267AB25F6B9B100951E36 /* CloudService.swift */; };
-		83D267B225F6BA8A00951E36 /* LocalCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267B125F6BA8A00951E36 /* LocalCloudService.swift */; };
+		83D267B225F6BA8A00951E36 /* RemoteCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267B125F6BA8A00951E36 /* RemoteCloudService.swift */; };
 		83D267C325F6BB7C00951E36 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267C225F6BB7C00951E36 /* HTTPRequest.swift */; };
 		83D267C725F6BB8000951E36 /* HTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267C625F6BB8000951E36 /* HTTPService.swift */; };
 		83E73AA825F78CAC00732530 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E73AA725F78CAC00732530 /* Theme.swift */; };
@@ -68,10 +81,15 @@
 		22F52A8E2988565AC72F2176 /* Pods-etaTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-etaTests.release.xcconfig"; path = "Target Support Files/Pods-etaTests/Pods-etaTests.release.xcconfig"; sourceTree = "<group>"; };
 		570D33C7D7D68BAF429CFAE1 /* Pods-eta.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-eta.release.xcconfig"; path = "Target Support Files/Pods-eta/Pods-eta.release.xcconfig"; sourceTree = "<group>"; };
 		749BE74B22B8B2EBE6FE6503 /* Pods_eta.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_eta.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		830780872600288E00D576C3 /* FirebaseDatabaseService+Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseDatabaseService+Session.swift"; sourceTree = "<group>"; };
+		8307808D2600292800D576C3 /* FirebaseDatabaseService+User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseDatabaseService+User.swift"; sourceTree = "<group>"; };
+		83078093260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FirebaseDatabaseService+Cloud.swift"; sourceTree = "<group>"; };
+		8307809926002A6100D576C3 /* SnapshotDecodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapshotDecodable.swift; sourceTree = "<group>"; };
 		8309B8F225F9746A00B7B326 /* FirebaseDatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseService.swift; sourceTree = "<group>"; };
 		8309B90925F98CC500B7B326 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8309B90D25F98CF600B7B326 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		8309B91325F99D1F00B7B326 /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
+		8311899125FFF8390052853A /* PendingSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingSessionController.swift; sourceTree = "<group>"; };
 		8348931325F7BB4B002FAC0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8348937925F8F08D002FAC0F /* CGInterpolates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGInterpolates.swift; sourceTree = "<group>"; };
 		8357F6E825F0351400BF10A5 /* eta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eta.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -82,9 +100,16 @@
 		8357F6F925F0351600BF10A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8357F6FE25F0351600BF10A5 /* etaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = etaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8357F70425F0351600BF10A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8357F73425F03F1F00BF10A5 /* MapQuestServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapQuestServiceTests.swift; sourceTree = "<group>"; };
+		8375016D26029633006964E8 /* LocationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationController.swift; sourceTree = "<group>"; };
+		837501742602ADE6006964E8 /* Chippenham.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Chippenham.gpx; sourceTree = "<group>"; };
+		8375017A2602AE13006964E8 /* Bath.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Bath.gpx; sourceTree = "<group>"; };
+		8375017E2602AE41006964E8 /* Cardiff.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cardiff.gpx; sourceTree = "<group>"; };
+		837501842602AE64006964E8 /* Bristol.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bristol.gpx; sourceTree = "<group>"; };
+		837501882602B8AF006964E8 /* Warmley.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Warmley.gpx; sourceTree = "<group>"; };
 		838B1AC125F941A90055B9C6 /* IrisTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrisTransition.swift; sourceTree = "<group>"; };
 		838B1AC725F9432F0055B9C6 /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
+		83960F8D2601040B005A93D3 /* PendingSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingSessionTests.swift; sourceTree = "<group>"; };
+		8396BFF72606268300B6DD6A /* DalyCity.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = DalyCity.gpx; sourceTree = "<group>"; };
 		83A2BF7925FA452B00613B34 /* ScrollingBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScrollingBackground.swift; sourceTree = "<group>"; };
 		83A2BF7D25FA58EB00613B34 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		83A2BF8325FA591700613B34 /* RegisterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewModel.swift; sourceTree = "<group>"; };
@@ -92,6 +117,7 @@
 		83A2BF9B25FA974B00613B34 /* Regex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Regex.swift; sourceTree = "<group>"; };
 		83A2BFA125FAA39F00613B34 /* UIKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKit.swift; sourceTree = "<group>"; };
 		83A2BFA925FAB12500613B34 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		83A8F16E26040D9D008EFF8E /* SessionCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCellViewModel.swift; sourceTree = "<group>"; };
 		83C1C68525F4CFC800C3AD5F /* SessionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsViewController.swift; sourceTree = "<group>"; };
 		83C1C68B25F4CFD200C3AD5F /* SessionsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionsViewModel.swift; sourceTree = "<group>"; };
 		83C1C69225F4D64A00C3AD5F /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
@@ -103,7 +129,7 @@
 		83C1C6C125F5426C00C3AD5F /* ShareViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewModel.swift; sourceTree = "<group>"; };
 		83C1C6C525F547A500C3AD5F /* Tray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tray.swift; sourceTree = "<group>"; };
 		83D267AB25F6B9B100951E36 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
-		83D267B125F6BA8A00951E36 /* LocalCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCloudService.swift; sourceTree = "<group>"; };
+		83D267B125F6BA8A00951E36 /* RemoteCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCloudService.swift; sourceTree = "<group>"; };
 		83D267C225F6BB7C00951E36 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		83D267C625F6BB8000951E36 /* HTTPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPService.swift; path = HTTP/HTTPService.swift; sourceTree = "<group>"; };
 		83E73AA725F78CAC00732530 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -152,8 +178,12 @@
 			children = (
 				8309B90D25F98CF600B7B326 /* DatabaseService.swift */,
 				8309B8F225F9746A00B7B326 /* FirebaseDatabaseService.swift */,
+				83078093260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift */,
+				830780872600288E00D576C3 /* FirebaseDatabaseService+Session.swift */,
+				8307808D2600292800D576C3 /* FirebaseDatabaseService+User.swift */,
 				8309B90925F98CC500B7B326 /* Session.swift */,
 				83A2BFA925FAB12500613B34 /* User.swift */,
+				8307809926002A6100D576C3 /* SnapshotDecodable.swift */,
 			);
 			path = DatabaseService;
 			sourceTree = "<group>";
@@ -181,6 +211,8 @@
 		8357F6EA25F0351400BF10A5 /* eta */ = {
 			isa = PBXGroup;
 			children = (
+				837501732602ADD2006964E8 /* GPX */,
+				8375016D26029633006964E8 /* LocationController.swift */,
 				8348931325F7BB4B002FAC0F /* GoogleService-Info.plist */,
 				8357F6F925F0351600BF10A5 /* Info.plist */,
 				8357F6EB25F0351400BF10A5 /* AppDelegate.swift */,
@@ -201,9 +233,22 @@
 			isa = PBXGroup;
 			children = (
 				8357F70425F0351600BF10A5 /* Info.plist */,
-				8357F73425F03F1F00BF10A5 /* MapQuestServiceTests.swift */,
+				83960F8D2601040B005A93D3 /* PendingSessionTests.swift */,
 			);
 			path = etaTests;
+			sourceTree = "<group>";
+		};
+		837501732602ADD2006964E8 /* GPX */ = {
+			isa = PBXGroup;
+			children = (
+				837501742602ADE6006964E8 /* Chippenham.gpx */,
+				8375017A2602AE13006964E8 /* Bath.gpx */,
+				8375017E2602AE41006964E8 /* Cardiff.gpx */,
+				837501842602AE64006964E8 /* Bristol.gpx */,
+				837501882602B8AF006964E8 /* Warmley.gpx */,
+				8396BFF72606268300B6DD6A /* DalyCity.gpx */,
+			);
+			path = GPX;
 			sourceTree = "<group>";
 		};
 		838B1AC025F941920055B9C6 /* Transitions */ = {
@@ -221,6 +266,7 @@
 				83C1C68525F4CFC800C3AD5F /* SessionsViewController.swift */,
 				83C1C68B25F4CFD200C3AD5F /* SessionsViewModel.swift */,
 				8309B91325F99D1F00B7B326 /* SessionCell.swift */,
+				83A8F16E26040D9D008EFF8E /* SessionCellViewModel.swift */,
 			);
 			path = Sessions;
 			sourceTree = "<group>";
@@ -271,7 +317,7 @@
 			isa = PBXGroup;
 			children = (
 				83D267AB25F6B9B100951E36 /* CloudService.swift */,
-				83D267B125F6BA8A00951E36 /* LocalCloudService.swift */,
+				83D267B125F6BA8A00951E36 /* RemoteCloudService.swift */,
 			);
 			path = CloudService;
 			sourceTree = "<group>";
@@ -306,6 +352,7 @@
 			isa = PBXGroup;
 			children = (
 				83E89F1F25F3F32B0079F58E /* CoreCoordinator.swift */,
+				8311899125FFF8390052853A /* PendingSessionController.swift */,
 				83E73AA725F78CAC00732530 /* Theme.swift */,
 				83E89F4225F404490079F58E /* Authentication */,
 				8357F6F125F0351400BF10A5 /* Main.storyboard */,
@@ -428,6 +475,12 @@
 				8348931425F7BB4B002FAC0F /* GoogleService-Info.plist in Resources */,
 				8357F6F525F0351600BF10A5 /* Assets.xcassets in Resources */,
 				8357F6F325F0351400BF10A5 /* Main.storyboard in Resources */,
+				837501752602ADE6006964E8 /* Chippenham.gpx in Resources */,
+				8375017F2602AE41006964E8 /* Cardiff.gpx in Resources */,
+				8375017B2602AE13006964E8 /* Bath.gpx in Resources */,
+				8396BFF82606268300B6DD6A /* DalyCity.gpx in Resources */,
+				837501852602AE64006964E8 /* Bristol.gpx in Resources */,
+				837501892602B8AF006964E8 /* Warmley.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -528,8 +581,11 @@
 			files = (
 				8309B90A25F98CC500B7B326 /* Session.swift in Sources */,
 				83A2BF7E25FA58EB00613B34 /* RegisterViewController.swift in Sources */,
+				83078094260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift in Sources */,
 				83A2BFA225FAA39F00613B34 /* UIKit.swift in Sources */,
 				83E89F3625F402CA0079F58E /* StoryboardViewController.swift in Sources */,
+				83A8F16F26040D9D008EFF8E /* SessionCellViewModel.swift in Sources */,
+				830780882600288E00D576C3 /* FirebaseDatabaseService+Session.swift in Sources */,
 				8309B91425F99D1F00B7B326 /* SessionCell.swift in Sources */,
 				83A2BF8425FA591700613B34 /* RegisterViewModel.swift in Sources */,
 				838B1AC225F941A90055B9C6 /* IrisTransition.swift in Sources */,
@@ -541,8 +597,9 @@
 				83C1C6C625F547A500C3AD5F /* Tray.swift in Sources */,
 				83C1C6BC25F5426500C3AD5F /* ShareViewController.swift in Sources */,
 				83C1C69925F4D65900C3AD5F /* UserViewModel.swift in Sources */,
-				83D267B225F6BA8A00951E36 /* LocalCloudService.swift in Sources */,
+				83D267B225F6BA8A00951E36 /* RemoteCloudService.swift in Sources */,
 				83C1C68625F4CFC800C3AD5F /* SessionsViewController.swift in Sources */,
+				8375016E26029633006964E8 /* LocationController.swift in Sources */,
 				83C1C6A825F4DD4700C3AD5F /* RxExtensions.swift in Sources */,
 				8309B8F325F9746A00B7B326 /* FirebaseDatabaseService.swift in Sources */,
 				83D267AC25F6B9B100951E36 /* CloudService.swift in Sources */,
@@ -557,11 +614,14 @@
 				83E89F1C25F3F3220079F58E /* AuthenticationViewModel.swift in Sources */,
 				8357F6EC25F0351400BF10A5 /* AppDelegate.swift in Sources */,
 				83E89F2025F3F32B0079F58E /* CoreCoordinator.swift in Sources */,
+				8307809A26002A6100D576C3 /* SnapshotDecodable.swift in Sources */,
 				83D267C325F6BB7C00951E36 /* HTTPRequest.swift in Sources */,
 				83E89F2D25F3F9010079F58E /* FirebaseAuthorizationService.swift in Sources */,
 				83A2BF9C25FA974B00613B34 /* Regex.swift in Sources */,
+				8311899225FFF8390052853A /* PendingSessionController.swift in Sources */,
 				83C1C6B325F4E2EF00C3AD5F /* Button.swift in Sources */,
 				83E73AA825F78CAC00732530 /* Theme.swift in Sources */,
+				8307808E2600292800D576C3 /* FirebaseDatabaseService+User.swift in Sources */,
 				83A2BF8825FA5B4000613B34 /* SlideTransition.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -570,7 +630,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8357F73525F03F1F00BF10A5 /* MapQuestServiceTests.swift in Sources */,
+				83960F8E2601040B005A93D3 /* PendingSessionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -655,7 +715,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -710,7 +770,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

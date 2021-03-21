@@ -20,7 +20,15 @@ class CoreCoordinator: Coordinator {
     let authorizationService = FirebaseAuthorizationService()
     let databaseService = FirebaseDatabaseService()
     
+    #if targetEnvironment(simulator)
+    let cloudService = RemoteCloudService(scheme: .http, domain: "127.0.0.1", port: 8080)
+    #else
+    let cloudService = RemoteCloudService(scheme: .https, domain: "lofionic-eta.herokuapp.com")
+    #endif
+    
     let disposeBag = DisposeBag()
+    
+    var locationController: LocationController?
     
     var navigationController: UINavigationController!
     
@@ -28,6 +36,8 @@ class CoreCoordinator: Coordinator {
         authorizationService.stateDidChange.subscribe(onNext: { [weak self] userIdentifier in
             self?.authorizationStatusDidChange(userIdentifier: userIdentifier)
         }).disposed(by: disposeBag)
+        
+        cloudService.authenticationService = authorizationService
     }
     
     var rootViewController: UIViewController {
@@ -46,7 +56,7 @@ class CoreCoordinator: Coordinator {
     func authenticationViewController() -> UIViewController {
         let viewController = AuthenticationViewController.instantiateFromStoryboard(storyboard)
         let viewModel = AuthenticationViewModel(authorizationService: authorizationService)
-        viewModel.didAuthorizeHandler = { [weak self] in
+        viewModel.signInHandler = { [weak self] _ in
             guard let self = self else { return }
             self.navigationController.pushViewController(self.sessionsViewController(), animated: true)
         }
@@ -61,7 +71,12 @@ class CoreCoordinator: Coordinator {
     
     func registerViewController() -> UIViewController {
         let viewController = RegisterViewController.instantiateFromStoryboard(storyboard)
-        let viewModel = RegisterViewModel(authorizationService: authorizationService, cloudService: databaseService)
+        let viewModel = RegisterViewModel(authorizationService: authorizationService, cloudService: cloudService)
+        viewModel.registerHandler = { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController.pushViewController(self.sessionsViewController(), animated: true)
+        }
+        
         viewModel.dismissHandler = { [weak self] in
             guard let self = self else { return }
             self.navigationController.popViewController(animated: true)
@@ -70,9 +85,13 @@ class CoreCoordinator: Coordinator {
         return viewController
     }
     
-    func sessionsViewController() -> UIViewController {        
+    func sessionsViewController() -> UIViewController {
         let viewController = SessionsViewController.instantiateFromStoryboard(storyboard)
-        let viewModel = SessionsViewModel(authorizationService: authorizationService, sessionService: databaseService)
+        let viewModel = SessionsViewModel(
+            authorizationService: authorizationService,
+            sessionService: databaseService,
+            userService: databaseService,
+            cloudService: cloudService)
         viewModel.showUserMenuHandler = { [weak self] in
             guard let self = self else { return }
             self.navigationController.present(self.userViewController(), animated: true)
@@ -80,12 +99,18 @@ class CoreCoordinator: Coordinator {
         viewController.viewModel = viewModel
         
         let shareViewController = ShareViewController.instantiateFromStoryboard(storyboard)
-        let shareViewModel = ShareViewModel(authorizationService: authorizationService, cloudService: databaseService)
+        let shareViewModel = ShareViewModel(
+            authorizationService: authorizationService,
+            cloudService: cloudService,
+            sessionService: databaseService)
         shareViewModel.presentHandler = { [weak viewModel] in
             viewModel?.setShowingShareView(true)
         }
         shareViewModel.dismissHandler = { [weak viewModel] in
             viewModel?.setShowingShareView(false)
+        }
+        shareViewModel.sessionAuthorizedHandler = { session in
+            print("Session authorized: \(session.identifier)")
         }
         shareViewController.viewModel = shareViewModel
         
@@ -107,7 +132,14 @@ class CoreCoordinator: Coordinator {
 extension CoreCoordinator {
     
     func authorizationStatusDidChange(userIdentifier: String?) {
-        if userIdentifier == nil {
+        if let userIdentifier = userIdentifier {
+            locationController = LocationController(
+                userIdentifier: userIdentifier,
+                sessionService: databaseService,
+                cloudService: cloudService,
+                authorizationService: authorizationService)
+        } else {
+            locationController = nil
             navigationController.popToRootViewController(animated: true)
         }
     }

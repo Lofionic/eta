@@ -26,7 +26,7 @@ final class ScrollingBackground: UIView {
 	}
 	
 	func resumeScrolling() {
-		displayLink?.invalidate()
+        pauseScrolling()
 		
 		let displayLink = CADisplayLink(target: self, selector: #selector(update))
 		displayLink.add(to: .current, forMode: .common)
@@ -36,6 +36,7 @@ final class ScrollingBackground: UIView {
 	
 	func pauseScrolling() {
 		displayLink?.invalidate()
+        displayLink = nil
 	}
 	
 	@objc

@@ -73,5 +73,21 @@ final class FirebaseAuthorizationService: AuthorizationService {
             return Disposables.create()
         }
     }
+    
+    func getIDToken() -> Single<String> {
+        return Single.create { single in
+            Auth.auth().currentUser?.getIDToken { token, error in
+                if let error = error {
+                    single(.failure(error))
+                } else {
+                    if let token = token {
+                        single(.success(token))
+                    }
+                }
+            }
+            return Disposables.create()
+        }
+        
+    }
 }
 

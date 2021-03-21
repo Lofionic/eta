@@ -7,14 +7,16 @@
 
 import RxSwift
 
+typealias UserIdentifier = String
 typealias Email = String
 typealias Password = String
 
 protocol AuthorizationService {
-    func createUser(withEmail: Email, password: Password) -> Single<String>
-    func signIn(withEmail: Email, password: Password) -> Single<String>
+    func createUser(withEmail: Email, password: Password) -> Single<UserIdentifier>
+    func signIn(withEmail: Email, password: Password) -> Single<UserIdentifier>
     func signOut() -> Completable
+    func getIDToken() -> Single<String>
     
-    var currentUser: String? { get }
-    var stateDidChange: Observable<String?> { get }
+    var currentUser: UserIdentifier? { get }
+    var stateDidChange: Observable<UserIdentifier?> { get }
 }

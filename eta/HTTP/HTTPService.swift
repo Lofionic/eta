@@ -27,6 +27,7 @@ class HTTPService {
     let jsonEncoder = JSONEncoder()
     
     var queryItems: [String: String] { [:] }
+    var authorizationToken: String?
     
     init(scheme: HTTPServiceScheme, domain: String, port: Int? = nil) {
         self.scheme = scheme
@@ -34,7 +35,7 @@ class HTTPService {
         self.port = port
     }
     
-    func makeRequest<T: Decodable>(_ request: HTTPRequest) throws -> T {
+    func doRequest<T: Decodable>(_ request: HTTPRequest) throws -> T {
         guard let url = getURLForRequest(request) else {
             throw HTTPServiceError.cannotFormURL
         }
@@ -43,6 +44,10 @@ class HTTPService {
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.httpBody = request.body
         request.setHeaders(urlRequest: &urlRequest)
+        
+        if let authorizationToken = authorizationToken {
+            urlRequest.setValue("Bearer \(authorizationToken)", forHTTPHeaderField: "Authorization")
+        }
         
         let urlSessionConfiguration = URLSessionConfiguration.default
         let session = URLSession(configuration: urlSessionConfiguration)

@@ -22,7 +22,6 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
     @IBOutlet var collectionView: UICollectionView!
     
     private var sessions = [Session]()
-    
     private let disposeBag = DisposeBag()
     
     override func viewDidLoad() {
@@ -133,7 +132,8 @@ extension SessionsViewController: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
         
         if let sessionCell = cell as? SessionCell {
-            sessionCell.configureWithSession(sessions[indexPath.row])
+            let cellViewModel = viewModel.viewModelForSession(sessions[indexPath.row])
+            sessionCell.viewModel = cellViewModel
         }
         
         return cell

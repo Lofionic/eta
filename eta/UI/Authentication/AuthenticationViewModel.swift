@@ -24,7 +24,7 @@ class AuthenticationViewModel: ViewModel {
     
     let setFirstResponder: Driver<AuthenticationFirstResponder>
     
-    var didAuthorizeHandler: () -> Void = {}
+    var signInHandler: (UserIdentifier) -> Void = { _ in }
     var registerHandler: () -> Void = {}
     
     private let isWorkingRelay = BehaviorRelay<Bool>(value: false)
@@ -38,6 +38,7 @@ class AuthenticationViewModel: ViewModel {
         
         let isEmailValid = emailRelay
             .observe(on: ConcurrentDispatchQueueScheduler(qos: .userInteractive))
+			.lowercased()
             .regex(NSRegularExpression.email)
             .subscribe(on: MainScheduler.instance)
             .map { email -> Bool in
@@ -65,11 +66,11 @@ class AuthenticationViewModel: ViewModel {
         
         setFirstResponder = setFirstResponderRelay.asDriver(onErrorDriveWith: .never())
         
-        authorizationService.stateDidChange.subscribe(onNext: { [weak self] user in
-            if user != nil {
-                self?.didAuthorizeHandler()
-            }
-        }).disposed(by: disposeBag)
+//        authorizationService.stateDidChange.subscribe(onNext: { [weak self] user in
+//            if user != nil {
+//                self?.didAuthorizeHandler()
+//            }
+//        }).disposed(by: disposeBag)
     }
 }
 
@@ -87,8 +88,9 @@ extension AuthenticationViewModel {
             .do(onSubscribe: { [weak isWorkingRelay] in
                 isWorkingRelay?.accept(true)
             })
-            .subscribe(onSuccess: { [weak isWorkingRelay] _ in
-                isWorkingRelay?.accept(false)
+            .subscribe(onSuccess: { [weak self] user in
+                self?.isWorkingRelay.accept(false)
+                self?.signInHandler(user)
             }, onFailure: { [weak self] error in
                 self?.isWorkingRelay.accept(false)
                 self?.signInDidFail(error)

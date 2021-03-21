@@ -23,4 +23,8 @@ protocol HTTPRequest {
 
 extension HTTPRequest {
     func setHeaders(urlRequest: inout URLRequest) {}
+    
+    var method: HTTPRequestMethod { .get }
+    var queryItems: [String: String] { [:] }
+    var body: Data? { nil }
 }

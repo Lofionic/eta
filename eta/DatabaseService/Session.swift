@@ -1,42 +1,39 @@
 //
-//  Session.swift
-//  eta
-//
-//  Created by Chris Rivers on 10/03/2021.
+//  Created by Lofionic ©2021
 //
 
 import Foundation
 
+struct SessionConfiguration: Codable {
+    let expiresAfter: TimeInterval
+}
+
 struct Session: Codable {
     let identifier: SessionIdentifier
     let userIdentifier: UserIdentifier
-    let friendIdentifier: UserIdentifier?
-    let status: Int
+    let configuration: SessionConfiguration
     
-    let startDate: TimeInterval
-    let lastUpdated: TimeInterval
-    let expiresAfter: TimeInterval
+    let subscriberIdentifier: UserIdentifier?
+    let status: SessionStatus
+    
+    let startDate: Date
+    let lastUpdated: Date
     
     let eta: ETA?
 }
 
 struct ETA: Codable {
     let activity: Int
-    let date: Double
+    let date: Date
     
-    let from: Location
-    let to: Location
+    let from: Coordinates
+    let to: Coordinates
     
     let route: Route
 }
 
-struct Route: Codable {
+struct Route: Codable, Equatable {
     let distance: Double
     let realTime: Int
     let time: Int
-}
-
-struct Location: Codable {
-    let latitude: Double
-    let longitude: Double
 }

@@ -122,7 +122,6 @@ final class Tray: UIView {
     
     private func panGestureChanged(panGestureRecognizer: UIPanGestureRecognizer) {
         guard
-            let delegate = delegate,
             let superview = superview,
             let panConstraint = panConstraint,
             let panState = panState else

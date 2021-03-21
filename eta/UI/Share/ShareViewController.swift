@@ -21,6 +21,9 @@ final class ShareViewController: UIViewController, StoryboardViewController {
     @IBOutlet private(set) var bodyView: UIView!
     @IBOutlet private var presentButton: Button!
     @IBOutlet private var dismissButton: UIButton!
+    
+    @IBOutlet private var titleLabel: UILabel!
+    @IBOutlet private var startButton: Button!
     @IBOutlet private var sessionLinkLabel: UILabel!
     
     let disposeBag = DisposeBag()
@@ -31,25 +34,46 @@ final class ShareViewController: UIViewController, StoryboardViewController {
         bodyView.backgroundColor = viewModel.theme.colors.background
         presentButton.setTitle(viewModel.strings.shareMyETA, for: .normal)
         
+        let tapLinkGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLink(_:)))
+        sessionLinkLabel.addGestureRecognizer(tapLinkGesture)
+        sessionLinkLabel.isUserInteractionEnabled = true
+        
         setPresentationState(.minimized, animated: false)
         addBinds()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        viewModel.endSession()
         removeFromParent()
     }
     
     private func addBinds() {
         disposeBag.insert([
-            viewModel.presentationState.skip(1).drive(onNext: { [weak self] presentationState in
-                self?.setPresentationState(presentationState, animated: true)
-            }),
-            viewModel.isWorking.drive(presentButton.rx.isAnimatingActivityIndicator),
-            viewModel.sessionLink.drive(sessionLinkLabel.rx.text),
+            viewModel.presentationState.skip(1).drive(rx.presdentationState),
+            viewModel.link.drive(sessionLinkLabel.rx.text),
+            viewModel.isWorking.not().drive(startButton.rx.isEnabled),
+            viewModel.isWorking.not().drive(dismissButton.rx.isEnabled),
+            viewModel.isWorking.drive(startButton.rx.isAnimatingActivityIndicator),
         ])
+        
+        viewModel.link.drive(onNext: { [weak self] link in
+            guard let self = self else { return }
+            if link != nil {
+                self.startButton.isHidden = true
+                self.sessionLinkLabel.isHidden = false
+            } else {
+                self.startButton.isHidden = false
+                self.sessionLinkLabel.isHidden = true
+            }
+        }).disposed(by: disposeBag)
+        
+        viewModel.share.drive(onNext: { [weak self] item in
+            let shareViewController = UIActivityViewController(activityItems: [item], applicationActivities: nil)
+            self?.present(shareViewController, animated: true, completion: nil)
+        }).disposed(by: disposeBag)
     }
     
-    private func setPresentationState(_ presentationState: ShareViewPresentationState, animated: Bool) {
+    fileprivate func setPresentationState(_ presentationState: ShareViewPresentationState, animated: Bool) {
         switch presentationState {
         case .minimized:
             if animated {
@@ -94,15 +118,28 @@ final class ShareViewController: UIViewController, StoryboardViewController {
 }
 
 extension ShareViewController {
-    @IBAction func didTapStart(_ sender: Any) {
-        viewModel.startSession()
-    }
-    
     @IBAction func didTapPresent(_ sender: Any) {
         viewModel.present()
     }
     
     @IBAction func didTapDismiss(_ sender: Any) {
+        viewModel.endSession()
         viewModel.dismiss()
+    }
+    
+    @IBAction func didTapStart(_ sender: Any) {
+        viewModel.startSession()
+    }
+    
+    @IBAction func didTapLink(_ sender: Any) {
+        viewModel.didTapLink()
+    }
+}
+
+extension Reactive where Base == ShareViewController {
+    var presdentationState: Binder<ShareViewPresentationState> {
+        return Binder<ShareViewPresentationState>(base) { base, presentationState in
+            base.setPresentationState(presentationState, animated: true)
+        }
     }
 }

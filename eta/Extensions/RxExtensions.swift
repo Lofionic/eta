@@ -33,6 +33,10 @@ public extension ObservableType where Element == String? {
             }
         }
     }
+	
+	func lowercased() -> Observable<String?> {
+		return map { $0?.lowercased() }
+	}
     
     func isValid(_ regexString: String) -> Observable<Bool> {
         return regex(regexString).map { $0 != nil }

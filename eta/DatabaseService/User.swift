@@ -1,8 +1,5 @@
 //
-//  User.swift
-//  eta
-//
-//  Created by Chris Rivers on 11/03/2021.
+//  Created by Lofionic ©2021
 //
 
 struct User: Codable {

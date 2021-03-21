@@ -10,11 +10,6 @@ import RxSwift
 
 final class RegisterViewModel: ViewModel {
     
-    var dismissHandler: () -> Void = {}
-    
-    let theme: Theme
-    let strings = RegisterStrings()
-    
     let email = BehaviorRelay<String?>(value: nil)
     let password = BehaviorRelay<String?>(value: nil)
     
@@ -23,13 +18,19 @@ final class RegisterViewModel: ViewModel {
     let continueEnabled: Driver<Bool>
     
     let isWorking: Driver<Bool>
-    private let isWorkingRelay = BehaviorRelay(value: false)
-    
     let setFirstResponder: Driver<AuthenticationFirstResponder>
+    
+    var registerHandler: (UserIdentifier?) -> Void = { _ in }
+    var dismissHandler: () -> Void = {}
+    
+    let theme: Theme
+    let strings = RegisterStrings()
+    
+    private let isWorkingRelay = BehaviorRelay(value: false)
     private let setFirstResponderRelay = PublishRelay<AuthenticationFirstResponder>()
     
-    let authorizationService: AuthorizationService
-    let cloudService: CloudService
+    private let authorizationService: AuthorizationService
+    private let cloudService: CloudService
     
     private let disposeBag = DisposeBag()
     
@@ -43,8 +44,17 @@ final class RegisterViewModel: ViewModel {
         self.theme = theme
         
         emailValid = email
-            .isValid(NSRegularExpression.email)
-            .asDriver(onErrorJustReturn: false)
+			.observe(on: ConcurrentDispatchQueueScheduler(qos: .userInteractive))
+			.lowercased()
+			.regex(NSRegularExpression.email)
+			.subscribe(on: MainScheduler.instance)
+			.map { email -> Bool in
+				if let email = email, !email.isEmpty {
+					return true
+				}
+				return false
+			}
+			.asDriver(onErrorJustReturn: false)
         
         passwordValid = password
             .isValid(NSRegularExpression.password)
@@ -77,13 +87,14 @@ extension RegisterViewModel {
             .do(onSubscribe: { [weak isWorkingRelay] in
                 isWorkingRelay?.accept(true)
             })
-            .flatMapCompletable { [weak self] userIdentifier -> Completable in
+            .flatMap { [weak self] userIdentifier -> Single<UserIdentifier?> in
                 guard let self = self else { return .never() }
                 return self.cloudService.registerUser(userIdentifier, email: email)
             }
-            .subscribe(onCompleted: { [weak isWorkingRelay] in
-                isWorkingRelay?.accept(false)
-            }, onError: { [weak self] error in
+            .subscribe(onSuccess: { [weak self] userIdentifier in
+                self?.isWorkingRelay.accept(false)
+                self?.registerHandler(userIdentifier)
+            }, onFailure: { [weak self] error in
                 self?.isWorkingRelay.accept(false)
                 self?.registerDidFail(error)
             })
