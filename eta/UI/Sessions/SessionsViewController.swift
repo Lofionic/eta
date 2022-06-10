@@ -1,5 +1,5 @@
 //
-//  Created by Lofionic ©2021
+//  Lofionic ©2021
 //
 
 import UIKit
@@ -19,7 +19,9 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
     @IBOutlet var headerView: UIView!
     @IBOutlet var userButton: UIButton!
     @IBOutlet var shareViewControllerContainer: UIView!
-    @IBOutlet var collectionView: UICollectionView!
+    @IBOutlet var tableView: UITableView!
+    
+    private let maskingView = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
     
     private var sessions = [Session]()
     private let disposeBag = DisposeBag()
@@ -30,19 +32,13 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
         let theme = viewModel.theme
         userButton.tintColor = theme.colors.tint
         
+        maskingView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        maskingView.frame = view.bounds
+        maskingView.alpha = 0
+        view.insertSubview(maskingView, belowSubview: shareViewControllerContainer)
+        
         embedShareViewController()
         setBinds()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-
-        if let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout {
-            flowLayout.estimatedItemSize = CGSize(
-                width: collectionView.widestCellWidth,
-                height: 200
-            )
-        }
     }
     
     private func setBinds() {
@@ -57,6 +53,7 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
             }
             UIView.animate(withDuration: Self.presentShareViewAnimationDuration) { [weak self] in
                 self?.view.layoutIfNeeded()
+                self?.maskingView.alpha = isShowingShareView ? 1 : 0
             }
             self?.playHapticFeedback()
         }).disposed(by: disposeBag)
@@ -69,18 +66,18 @@ final class SessionsViewController: UIViewController, StoryboardViewController {
     private func handleSessionEvent(_ event: DataEvent<Session>) {
         switch event {
         case .added(let session):
-            collectionView.performBatchUpdates() {
+            tableView.performBatchUpdates() {
                 sessions.append(session)
                 sessions.sort(by: { a, b in a.startDate > b.startDate })
                 if let index = sessions.firstIndex(where: { $0.identifier == session.identifier }) {
-                    collectionView.insertItems(at: [IndexPath(item: index, section: 0)])
+                    tableView.insertRows(at: [IndexPath(row: index, section: 0)], with: .left)
                 }
             }
         case .removed(let session):
-            collectionView.performBatchUpdates() {
+            tableView.performBatchUpdates() {
                 if let index = sessions.firstIndex(where: { $0.identifier == session.identifier }) {
                     sessions.remove(at: index)
-                    collectionView.deleteItems(at: [IndexPath(item: index, section: 0)])
+                    tableView.deleteRows(at: [IndexPath(item: index, section: 0)], with: .left)
                 }
             }
         default: break
@@ -118,18 +115,19 @@ extension SessionsViewController {
         shareViewControllerConstraint.priority = .defaultHigh
         NSLayoutConstraint.activate([shareViewControllerConstraint])
         
-        showShareViewControllerConstraint = shareViewControllerContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor)
+        showShareViewControllerConstraint = view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: shareViewController.stackView.bottomAnchor, constant:8)
+//        showShareViewControllerConstraint = shareViewControllerContainer.topAnchor.constraint(equalTo: headerView.bottomAnchor)
         showShareViewControllerConstraint.priority = .required
     }
 }
 
-extension SessionsViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+extension SessionsViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return sessions.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath)
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
         if let sessionCell = cell as? SessionCell {
             let cellViewModel = viewModel.viewModelForSession(sessions[indexPath.row])
@@ -137,20 +135,5 @@ extension SessionsViewController: UICollectionViewDataSource {
         }
         
         return cell
-    }
-}
-
-extension UICollectionView {
-    var widestCellWidth: CGFloat {
-        let insets = contentInset.left + contentInset.right
-        
-        let sectionInsets: CGFloat
-        if let flowLayout = self.collectionViewLayout as? UICollectionViewFlowLayout {
-            sectionInsets = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        } else {
-            sectionInsets = 0
-        }
-        
-        return bounds.width - insets - sectionInsets
     }
 }

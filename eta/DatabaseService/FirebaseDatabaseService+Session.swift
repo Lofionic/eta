@@ -66,6 +66,7 @@ private extension FirebaseDatabaseService {
 }
 
 extension FirebaseDatabaseService: SessionService {
+    
     func sessionEvents(userIdentifier: UserIdentifier, events: ObservedEvents) -> Observable<DataEvent<Session>> {
         return Observable.create { [weak self] observable in
             let handles = self?.subscribeToSessions(
@@ -94,13 +95,19 @@ extension FirebaseDatabaseService: SessionService {
         }
     }
     
-    func sessionEvents(sessionIdentifier: SessionIdentifier, events: ObservedEvents) -> Observable<DataEvent<Session>> {
+    func sessionEvents(sessionIdentifier: SessionIdentifier) -> Observable<Session> {
         return Observable.create { [weak self] observable in
             let handles = self?.subscribeToSession(
                 sessionIdentifier: sessionIdentifier,
-                events: events,
-                onEvent: { observable.onNext($0) },
-                onError: { observable.onError($0) })
+                events: [.value],
+                onEvent: {
+                    if case .value(let session) = $0 {
+                        observable.onNext(session)
+                    }
+                },
+                onError: {
+                    observable.onError($0)
+                })
             return Disposables.create { [handles] in
                 guard let handles = handles else { return }
                 self?.unsubscribeToSessionsWithHandles(handles)

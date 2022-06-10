@@ -1,28 +1,26 @@
 //
-//  SessionCell.swift
-//  eta
-//
-//  Created by Chris Rivers on 11/03/2021.
+//  Lofionic ©2021
 //
 
 import UIKit
 
 import RxSwift
 
-final class SessionCell: UICollectionViewCell {
+final class SessionCell: UITableViewCell {
     
     var viewModel: SessionCellViewModel! { didSet { addBinds() }}
     
+    @IBOutlet private var usernameLabel: UILabel!
     @IBOutlet private var titleLabel: UILabel!
     @IBOutlet private var etaLabel: UILabel!
+    @IBOutlet private var avatar: AvatarView!
     
     private let authorizeView = UIView()
     
-//    private var session: Session?
     private var disposeBag: DisposeBag!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
     }
     
@@ -64,26 +62,13 @@ final class SessionCell: UICollectionViewCell {
         disposeBag = DisposeBag()
         
         disposeBag.insert([
+            viewModel.username.drive(usernameLabel.rx.text),
+            viewModel.user.drive(avatar.rx.user),
             viewModel.title.drive(titleLabel.rx.text),
             viewModel.eta.drive(etaLabel.rx.text),
             viewModel.isAuthorized.drive(authorizeView.rx.isHidden),
         ])
-    }
-    
-    override func systemLayoutSizeFitting(
-        _ targetSize: CGSize,
-        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-        verticalFittingPriority: UILayoutPriority) -> CGSize
-    {
-        var targetSize = targetSize
-        targetSize.height = CGFloat.greatestFiniteMagnitude
         
-        let size = super.systemLayoutSizeFitting(
-            targetSize,
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-        
-        return size
+        etaLabel.textColor = viewModel.theme.colors.tint
     }
 }

@@ -100,7 +100,7 @@ final class LocationController: NSObject {
     }
     
     private func dispatchLocation(_ clLocation: CLLocation) {
-        let location = Location(coordinates: Coordinates(clLocation), date: clLocation.timestamp)
+        let location = Location(coordinate: Coordinate(clLocation), date: clLocation.timestamp)
         print("\(Date()): Dispatching location: \(location)")
         let completables =
             [cloudService.authorize()] +
@@ -128,7 +128,7 @@ extension LocationController: CLLocationManagerDelegate {
     }
 }
 
-extension Coordinates {
+extension Coordinate {
     init(_ location: CLLocation) {
         self.latitude = location.coordinate.latitude
         self.longitude = location.coordinate.longitude

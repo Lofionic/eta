@@ -1,5 +1,5 @@
 //
-//  Created by Lofionic ©2021
+//  Lofionic ©2021
 //
 
 import Firebase
@@ -12,6 +12,7 @@ final class SessionsViewModel: ViewModel {
     let sessionsEvents: Driver<DataEvent<Session>>
     
     var showUserMenuHandler: () -> Void = {}
+    var hostingSessionHandler: (Session) -> Void = { _ in }
     var embedShareViewControllerHandler: () -> UIViewController? = { nil }
     
     let authorizationService: AuthorizationService
@@ -23,6 +24,7 @@ final class SessionsViewModel: ViewModel {
     
     private let isShowingShareViewRelay = BehaviorRelay(value: false)
     private let sessionsEventsRelay = PublishRelay<DataEvent<Session>>()
+    private let hostedSessionRelay = PublishRelay<Session>()
     
     private let disposeBag = DisposeBag()
     
@@ -43,9 +45,6 @@ final class SessionsViewModel: ViewModel {
         
         isShowingShareView = isShowingShareViewRelay.asDriver()
         sessionsEvents = sessionsEventsRelay
-            .do(onNext: {
-                print(String(describing: $0))
-            })
             .asDriver(onErrorDriveWith: .empty())
         
         subscribeToPendingSessions()
@@ -60,6 +59,25 @@ final class SessionsViewModel: ViewModel {
                 self?.sessionsEventsRelay.accept(event)
             })
             .disposed(by: disposeBag)
+        
+        sessionService
+            .sessionEvents(userIdentifier: userIdentifier, events: [.add, .change])
+            .compactMap { event in
+                switch event {
+                case .added(let session), .changed(let session):
+                    if session.subscriberIdentifier != nil {
+                        return session
+                    }
+                    return nil
+                default:
+                    return nil
+                }
+            }
+            .distinctUntilChanged { $0.identifier == $1.identifier }
+            .subscribe(onNext: { [weak self] session in
+                self?.hostingSessionHandler(session)
+            })
+            .disposed(by: disposeBag)
     }
     
     private func subscribeToPendingSessions() {
@@ -72,11 +90,7 @@ final class SessionsViewModel: ViewModel {
                 return self.cloudService
                     .authorize()
                     .andThen(self.cloudService.joinSession(sessionIdentifier: sessionIdentifier))
-                    .do(onSubscribe: { print("onSubscribe joinSession")}, onSubscribed: { print("onSubscribed joinSession")})
             }
-            .do(
-                onSubscribe: { print("onSubscribe pendingSessions")},
-                onSubscribed: { print("onSubscribed pendingSessions") })
             .subscribe()
             .disposed(by: disposeBag)
     }

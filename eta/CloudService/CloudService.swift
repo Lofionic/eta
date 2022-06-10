@@ -7,13 +7,13 @@ import RxSwift
 typealias SessionIdentifier = String
 typealias Username = String
 
-struct Coordinates: Codable {
+struct Coordinate: Codable {
     let latitude: Double
     let longitude: Double
 }
 
 struct Location: Codable {
-    let coordinates: Coordinates
+    let coordinate: Coordinate
     let date: Date
 }
 
@@ -28,7 +28,7 @@ protocol CloudService {
     func authorize() -> Completable
     func registerUser(_ userIdentifier: UserIdentifier, email: Email) -> Single<UserIdentifier?>
     
-    func createSession(userIdentifier: UserIdentifier) -> Single<SessionIdentifier>
+    func createSession(userIdentifier: UserIdentifier, configuration: SessionConfiguration) -> Single<SessionIdentifier>
     func removeSession(sessionIdentifier: SessionIdentifier) -> Completable
     
     func joinSession(sessionIdentifier: SessionIdentifier) -> Completable

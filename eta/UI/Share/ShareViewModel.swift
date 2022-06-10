@@ -1,10 +1,38 @@
 //
-//  Created by Lofionic ©2021
+//  Lofionic ©2021
 //
 
 import FirebaseAuth
 import RxCocoa
 import RxSwift
+
+enum SessionDurations: Int, CaseIterable {
+	case fifteenMinutes
+	case thirtyMinutes
+	case oneHour
+	case twoHours
+	case fiveHours
+	
+	var title: String {
+		switch self {
+		case .fifteenMinutes: return "Fifteen minutes"
+		case .thirtyMinutes: return "Thirty minutes"
+		case .oneHour: return "One hour"
+		case .twoHours: return "Two hours"
+		case .fiveHours: return "Five hours"
+		}
+	}
+	
+	var timeInterval: TimeInterval {
+		switch self {
+		case .fifteenMinutes: return 60 * 15
+		case .thirtyMinutes: return 60 * 30
+		case .oneHour: return 60 * 60
+		case .twoHours: return 60 * 120
+		case .fiveHours: return 60 * 300
+		}
+	}
+}
 
 final class ShareViewModel: ViewModel {
     
@@ -12,7 +40,11 @@ final class ShareViewModel: ViewModel {
     let isWorking: Driver<Bool>
     let link: Driver<String?>
     let share: Driver<Any>
-        
+    
+    let durationOptions = Observable.just(SessionDurations.allCases.map{ $0.title })
+    let durationRelay = BehaviorRelay(value: (row: Int(SessionDurations.allCases.count / 2), component: 0))
+    let privateRelay = BehaviorRelay(value: true)
+    
     private let presentationStateRelay = BehaviorRelay(value: ShareViewPresentationState.minimized)
     private let linkRelay = BehaviorRelay<String?>(value: nil)
     private let sessionRelay = BehaviorRelay<Session?>(value: nil)
@@ -72,7 +104,10 @@ final class ShareViewModel: ViewModel {
         
         session
             .map { session -> ShareViewPresentationState in
-                if session != nil {
+                if
+                    let session = session,
+                    session.subscriberIdentifier == nil
+                {
                     return .fullscreen
                 }
                 return .minimized
@@ -80,7 +115,7 @@ final class ShareViewModel: ViewModel {
             .distinctUntilChanged()
             .drive(presentationStateRelay)
             .disposed(by: disposeBag)
-
+        
         session
             .map { session -> String? in
                 guard let session = session else {
@@ -133,9 +168,16 @@ extension ShareViewModel {
             return
         }
         
+        guard
+            let expiresAfter = SessionDurations(rawValue: durationRelay.value.row)?.timeInterval else
+        {
+            return
+        }
+        let configuration = SessionConfiguration(expiresAfter: expiresAfter, privateMode: privateRelay.value)
+        
         cloudService
             .authorize()
-            .andThen(cloudService.createSession(userIdentifier: user))
+            .andThen(cloudService.createSession(userIdentifier: user, configuration: configuration))
             .do(onSubscribe: { [isWorkingRelay] in
                 isWorkingRelay.accept(true)
             }, onDispose: { [isWorkingRelay] in
@@ -167,6 +209,9 @@ extension ShareViewModel {
 extension ShareViewModel {
     struct Strings {
         let shareMyETA = "Share my ETA"
+        let startSharing = "Start sharing"
+        let cancel = "Cancel"
+        let privateSwitchDescription = "Hide my location"
     }
     
     struct Constants {

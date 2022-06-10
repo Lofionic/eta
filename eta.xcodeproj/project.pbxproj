@@ -17,6 +17,11 @@
 		8309B90E25F98CF600B7B326 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B90D25F98CF600B7B326 /* DatabaseService.swift */; };
 		8309B91425F99D1F00B7B326 /* SessionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8309B91325F99D1F00B7B326 /* SessionCell.swift */; };
 		8311899225FFF8390052853A /* PendingSessionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8311899125FFF8390052853A /* PendingSessionController.swift */; };
+		834684F8260801EB00E90A22 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 834684F7260801EB00E90A22 /* Avatar.swift */; };
+		8346984F260A08D2000E0D1B /* Brighton.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8346984E260A08D2000E0D1B /* Brighton.gpx */; };
+		83469859260A26C6000E0D1B /* ChipsToBris.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 83469858260A26C6000E0D1B /* ChipsToBris.gpx */; };
+		8348126C26403C2300B0A2AF /* OverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126B26403C2300B0A2AF /* OverlayView.swift */; };
+		8348126E2640539D00B0A2AF /* ETAFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348126D2640539D00B0A2AF /* ETAFormatter.swift */; };
 		8348931425F7BB4B002FAC0F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8348931325F7BB4B002FAC0F /* GoogleService-Info.plist */; };
 		8348937A25F8F08D002FAC0F /* CGInterpolates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8348937925F8F08D002FAC0F /* CGInterpolates.swift */; };
 		8357F6EC25F0351400BF10A5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8357F6EB25F0351400BF10A5 /* AppDelegate.swift */; };
@@ -29,6 +34,7 @@
 		8375017F2602AE41006964E8 /* Cardiff.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 8375017E2602AE41006964E8 /* Cardiff.gpx */; };
 		837501852602AE64006964E8 /* Bristol.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837501842602AE64006964E8 /* Bristol.gpx */; };
 		837501892602B8AF006964E8 /* Warmley.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 837501882602B8AF006964E8 /* Warmley.gpx */; };
+		83799BDC260AA0BD00C7549E /* SessionLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83799BDB260AA0BD00C7549E /* SessionLinkView.swift */; };
 		838B1AC225F941A90055B9C6 /* IrisTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B1AC125F941A90055B9C6 /* IrisTransition.swift */; };
 		838B1AC825F9432F0055B9C6 /* CGRect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 838B1AC725F9432F0055B9C6 /* CGRect.swift */; };
 		83960F8E2601040B005A93D3 /* PendingSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83960F8D2601040B005A93D3 /* PendingSessionTests.swift */; };
@@ -55,6 +61,10 @@
 		83D267B225F6BA8A00951E36 /* RemoteCloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267B125F6BA8A00951E36 /* RemoteCloudService.swift */; };
 		83D267C325F6BB7C00951E36 /* HTTPRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267C225F6BB7C00951E36 /* HTTPRequest.swift */; };
 		83D267C725F6BB8000951E36 /* HTTPService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D267C625F6BB8000951E36 /* HTTPService.swift */; };
+		83D2CDE12664ED3500758353 /* Trip.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 83D2CDE02664ED3500758353 /* Trip.gpx */; };
+		83D8DF0B2610A34D00FBA7B7 /* SharingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D8DF0A2610A34D00FBA7B7 /* SharingViewController.swift */; };
+		83D8DF0F2610A38C00FBA7B7 /* SharingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D8DF0E2610A38C00FBA7B7 /* SharingViewModel.swift */; };
+		83D8DF2B2610A4FB00FBA7B7 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83D8DF2A2610A4FB00FBA7B7 /* File.swift */; };
 		83E73AA825F78CAC00732530 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E73AA725F78CAC00732530 /* Theme.swift */; };
 		83E89F1825F3F3190079F58E /* AuthenticationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E89F1725F3F3190079F58E /* AuthenticationViewController.swift */; };
 		83E89F1C25F3F3220079F58E /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83E89F1B25F3F3220079F58E /* AuthenticationViewModel.swift */; };
@@ -90,6 +100,11 @@
 		8309B90D25F98CF600B7B326 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		8309B91325F99D1F00B7B326 /* SessionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionCell.swift; sourceTree = "<group>"; };
 		8311899125FFF8390052853A /* PendingSessionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingSessionController.swift; sourceTree = "<group>"; };
+		834684F7260801EB00E90A22 /* Avatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Avatar.swift; sourceTree = "<group>"; };
+		8346984E260A08D2000E0D1B /* Brighton.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Brighton.gpx; sourceTree = "<group>"; };
+		83469858260A26C6000E0D1B /* ChipsToBris.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = ChipsToBris.gpx; sourceTree = "<group>"; };
+		8348126B26403C2300B0A2AF /* OverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayView.swift; sourceTree = "<group>"; };
+		8348126D2640539D00B0A2AF /* ETAFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ETAFormatter.swift; sourceTree = "<group>"; };
 		8348931325F7BB4B002FAC0F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8348937925F8F08D002FAC0F /* CGInterpolates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGInterpolates.swift; sourceTree = "<group>"; };
 		8357F6E825F0351400BF10A5 /* eta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = eta.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -106,6 +121,7 @@
 		8375017E2602AE41006964E8 /* Cardiff.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Cardiff.gpx; sourceTree = "<group>"; };
 		837501842602AE64006964E8 /* Bristol.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Bristol.gpx; sourceTree = "<group>"; };
 		837501882602B8AF006964E8 /* Warmley.gpx */ = {isa = PBXFileReference; lastKnownFileType = text; path = Warmley.gpx; sourceTree = "<group>"; };
+		83799BDB260AA0BD00C7549E /* SessionLinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLinkView.swift; sourceTree = "<group>"; };
 		838B1AC125F941A90055B9C6 /* IrisTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IrisTransition.swift; sourceTree = "<group>"; };
 		838B1AC725F9432F0055B9C6 /* CGRect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CGRect.swift; sourceTree = "<group>"; };
 		83960F8D2601040B005A93D3 /* PendingSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingSessionTests.swift; sourceTree = "<group>"; };
@@ -132,6 +148,10 @@
 		83D267B125F6BA8A00951E36 /* RemoteCloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteCloudService.swift; sourceTree = "<group>"; };
 		83D267C225F6BB7C00951E36 /* HTTPRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPRequest.swift; sourceTree = "<group>"; };
 		83D267C625F6BB8000951E36 /* HTTPService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HTTPService.swift; path = HTTP/HTTPService.swift; sourceTree = "<group>"; };
+		83D2CDE02664ED3500758353 /* Trip.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Trip.gpx; sourceTree = "<group>"; };
+		83D8DF0A2610A34D00FBA7B7 /* SharingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewController.swift; sourceTree = "<group>"; };
+		83D8DF0E2610A38C00FBA7B7 /* SharingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharingViewModel.swift; sourceTree = "<group>"; };
+		83D8DF2A2610A4FB00FBA7B7 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		83E73AA725F78CAC00732530 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		83E89F1725F3F3190079F58E /* AuthenticationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewController.swift; sourceTree = "<group>"; };
 		83E89F1B25F3F3220079F58E /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
@@ -241,12 +261,15 @@
 		837501732602ADD2006964E8 /* GPX */ = {
 			isa = PBXGroup;
 			children = (
+				83D2CDE02664ED3500758353 /* Trip.gpx */,
+				83469858260A26C6000E0D1B /* ChipsToBris.gpx */,
 				837501742602ADE6006964E8 /* Chippenham.gpx */,
 				8375017A2602AE13006964E8 /* Bath.gpx */,
 				8375017E2602AE41006964E8 /* Cardiff.gpx */,
 				837501842602AE64006964E8 /* Bristol.gpx */,
 				837501882602B8AF006964E8 /* Warmley.gpx */,
 				8396BFF72606268300B6DD6A /* DalyCity.gpx */,
+				8346984E260A08D2000E0D1B /* Brighton.gpx */,
 			);
 			path = GPX;
 			sourceTree = "<group>";
@@ -289,6 +312,7 @@
 				83C1C6A725F4DD4700C3AD5F /* RxExtensions.swift */,
 				83C1C6AD25F4E11E00C3AD5F /* TwoWayBinding.swift */,
 				83A2BFA125FAA39F00613B34 /* UIKit.swift */,
+				8348126D2640539D00B0A2AF /* ETAFormatter.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -300,6 +324,8 @@
 				83C1C6C525F547A500C3AD5F /* Tray.swift */,
 				83EED6FC25F6E78600951868 /* HandleView.swift */,
 				83A2BF7925FA452B00613B34 /* ScrollingBackground.swift */,
+				834684F7260801EB00E90A22 /* Avatar.swift */,
+				8348126B26403C2300B0A2AF /* OverlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -309,6 +335,7 @@
 			children = (
 				83C1C6BB25F5426500C3AD5F /* ShareViewController.swift */,
 				83C1C6C125F5426C00C3AD5F /* ShareViewModel.swift */,
+				83799BDB260AA0BD00C7549E /* SessionLinkView.swift */,
 			);
 			path = Share;
 			sourceTree = "<group>";
@@ -331,6 +358,16 @@
 			name = HTTPService;
 			sourceTree = "<group>";
 		};
+		83D8DF072610A33500FBA7B7 /* Sharing */ = {
+			isa = PBXGroup;
+			children = (
+				83D8DF0A2610A34D00FBA7B7 /* SharingViewController.swift */,
+				83D8DF0E2610A38C00FBA7B7 /* SharingViewModel.swift */,
+				83D8DF2A2610A4FB00FBA7B7 /* File.swift */,
+			);
+			path = Sharing;
+			sourceTree = "<group>";
+		};
 		83E89F2725F3F8C50079F58E /* AuthorizationService */ = {
 			isa = PBXGroup;
 			children = (
@@ -351,13 +388,14 @@
 		83E89F4125F4043C0079F58E /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				8357F6F125F0351400BF10A5 /* Main.storyboard */,
 				83E89F1F25F3F32B0079F58E /* CoreCoordinator.swift */,
 				8311899125FFF8390052853A /* PendingSessionController.swift */,
 				83E73AA725F78CAC00732530 /* Theme.swift */,
 				83E89F4225F404490079F58E /* Authentication */,
-				8357F6F125F0351400BF10A5 /* Main.storyboard */,
 				83C1C68425F4CFB200C3AD5F /* Sessions */,
 				83C1C6BA25F5421700C3AD5F /* Share */,
+				83D8DF072610A33500FBA7B7 /* Sharing */,
 				838B1AC025F941920055B9C6 /* Transitions */,
 				83C1C69125F4D63F00C3AD5F /* User */,
 				83C1C6B125F4E2D700C3AD5F /* Views */,
@@ -472,7 +510,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				8357F6F825F0351600BF10A5 /* LaunchScreen.storyboard in Resources */,
+				83D2CDE12664ED3500758353 /* Trip.gpx in Resources */,
 				8348931425F7BB4B002FAC0F /* GoogleService-Info.plist in Resources */,
+				83469859260A26C6000E0D1B /* ChipsToBris.gpx in Resources */,
 				8357F6F525F0351600BF10A5 /* Assets.xcassets in Resources */,
 				8357F6F325F0351400BF10A5 /* Main.storyboard in Resources */,
 				837501752602ADE6006964E8 /* Chippenham.gpx in Resources */,
@@ -480,6 +520,7 @@
 				8375017B2602AE13006964E8 /* Bath.gpx in Resources */,
 				8396BFF82606268300B6DD6A /* DalyCity.gpx in Resources */,
 				837501852602AE64006964E8 /* Bristol.gpx in Resources */,
+				8346984F260A08D2000E0D1B /* Brighton.gpx in Resources */,
 				837501892602B8AF006964E8 /* Warmley.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,11 +623,13 @@
 				8309B90A25F98CC500B7B326 /* Session.swift in Sources */,
 				83A2BF7E25FA58EB00613B34 /* RegisterViewController.swift in Sources */,
 				83078094260029D700D576C3 /* FirebaseDatabaseService+Cloud.swift in Sources */,
+				834684F8260801EB00E90A22 /* Avatar.swift in Sources */,
 				83A2BFA225FAA39F00613B34 /* UIKit.swift in Sources */,
 				83E89F3625F402CA0079F58E /* StoryboardViewController.swift in Sources */,
 				83A8F16F26040D9D008EFF8E /* SessionCellViewModel.swift in Sources */,
 				830780882600288E00D576C3 /* FirebaseDatabaseService+Session.swift in Sources */,
 				8309B91425F99D1F00B7B326 /* SessionCell.swift in Sources */,
+				83D8DF0F2610A38C00FBA7B7 /* SharingViewModel.swift in Sources */,
 				83A2BF8425FA591700613B34 /* RegisterViewModel.swift in Sources */,
 				838B1AC225F941A90055B9C6 /* IrisTransition.swift in Sources */,
 				8309B90E25F98CF600B7B326 /* DatabaseService.swift in Sources */,
@@ -603,15 +646,20 @@
 				83C1C6A825F4DD4700C3AD5F /* RxExtensions.swift in Sources */,
 				8309B8F325F9746A00B7B326 /* FirebaseDatabaseService.swift in Sources */,
 				83D267AC25F6B9B100951E36 /* CloudService.swift in Sources */,
+				83D8DF0B2610A34D00FBA7B7 /* SharingViewController.swift in Sources */,
 				83A2BF7A25FA452B00613B34 /* ScrollingBackground.swift in Sources */,
 				838B1AC825F9432F0055B9C6 /* CGRect.swift in Sources */,
+				8348126C26403C2300B0A2AF /* OverlayView.swift in Sources */,
 				83C1C6C225F5426C00C3AD5F /* ShareViewModel.swift in Sources */,
 				83A2BFAA25FAB12500613B34 /* User.swift in Sources */,
 				83D267C725F6BB8000951E36 /* HTTPService.swift in Sources */,
 				83C1C68C25F4CFD200C3AD5F /* SessionsViewModel.swift in Sources */,
+				83799BDC260AA0BD00C7549E /* SessionLinkView.swift in Sources */,
+				8348126E2640539D00B0A2AF /* ETAFormatter.swift in Sources */,
 				8348937A25F8F08D002FAC0F /* CGInterpolates.swift in Sources */,
 				83E89F1825F3F3190079F58E /* AuthenticationViewController.swift in Sources */,
 				83E89F1C25F3F3220079F58E /* AuthenticationViewModel.swift in Sources */,
+				83D8DF2B2610A4FB00FBA7B7 /* File.swift in Sources */,
 				8357F6EC25F0351400BF10A5 /* AppDelegate.swift in Sources */,
 				83E89F2025F3F32B0079F58E /* CoreCoordinator.swift in Sources */,
 				8307809A26002A6100D576C3 /* SnapshotDecodable.swift in Sources */,

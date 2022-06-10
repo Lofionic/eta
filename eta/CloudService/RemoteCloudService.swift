@@ -11,7 +11,7 @@ private struct PostResponse: Decodable {
 }
 
 extension SessionConfiguration {
-    static let `default` = SessionConfiguration(expiresAfter: 3600)
+    static let `default` = SessionConfiguration(expiresAfter: 3600, privateMode: true)
 }
 
 final class RemoteCloudService: HTTPService, CloudService {
@@ -56,8 +56,8 @@ final class RemoteCloudService: HTTPService, CloudService {
         .observe(on: MainScheduler.instance)
     }
     
-    func createSession(userIdentifier: UserIdentifier) -> Single<SessionIdentifier> {
-        let request = CreateSession(userIdentifier: userIdentifier, configuration: .default)
+    func createSession(userIdentifier: UserIdentifier, configuration: SessionConfiguration) -> Single<SessionIdentifier> {
+        let request = CreateSession(userIdentifier: userIdentifier, configuration: configuration)
         return Single.create { [weak self] single in
             guard let self = self else {
                 return Disposables.create()

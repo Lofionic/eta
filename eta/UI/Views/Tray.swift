@@ -5,7 +5,7 @@
 import UIKit
 
 @objc
-protocol TrayDelegate: class {
+protocol TrayDelegate: AnyObject {
 //    func tray(_ tray: Tray, heightForState state: TrayState) -> CGFloat
     func tray(_ tray: Tray, restingHeightForHeight height: CGFloat, velocity: CGFloat) -> CGFloat
     

@@ -6,6 +6,7 @@ import Foundation
 
 struct SessionConfiguration: Codable {
     let expiresAfter: TimeInterval
+    let privateMode: Bool
 }
 
 struct Session: Codable {
@@ -25,11 +26,8 @@ struct Session: Codable {
 struct ETA: Codable {
     let activity: Int
     let date: Date
-    
-    let from: Coordinates
-    let to: Coordinates
-    
-    let route: Route
+	let description: String
+	let duration: TimeInterval
 }
 
 struct Route: Codable, Equatable {

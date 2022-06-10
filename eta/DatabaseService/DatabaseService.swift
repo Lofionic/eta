@@ -17,7 +17,7 @@ enum DataEvent<T> {
 protocol SessionService {
     func sessionEvents(userIdentifier: UserIdentifier, events: ObservedEvents) -> Observable<DataEvent<Session>>
     func sessionEvents(subscriberIdentifier: UserIdentifier, events: ObservedEvents) -> Observable<DataEvent<Session>>
-    func sessionEvents(sessionIdentifier: SessionIdentifier, events: ObservedEvents) -> Observable<DataEvent<Session>>
+    func sessionEvents(sessionIdentifier: SessionIdentifier) -> Observable<Session>	
 }
 
 protocol UserService {

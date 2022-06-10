@@ -4,6 +4,6 @@
 
 struct User: Codable {
     let identifier: UserIdentifier
-    let email: Email?
+    let email: Email
     let username: Username?
 }

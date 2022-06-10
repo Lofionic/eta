@@ -1,5 +1,5 @@
 //
-//  Created by Lofionic ©2021
+//  Lofionic ©2021
 //
 
 import UIKit
@@ -22,9 +22,14 @@ final class ShareViewController: UIViewController, StoryboardViewController {
     @IBOutlet private var presentButton: Button!
     @IBOutlet private var dismissButton: UIButton!
     
+	@IBOutlet private var durationPicker: UIPickerView!
+    @IBOutlet private var privateSwitch: UISwitch!
+    @IBOutlet private var privateLabel: UILabel!
+    
     @IBOutlet private var titleLabel: UILabel!
-    @IBOutlet private var startButton: Button!
-    @IBOutlet private var sessionLinkLabel: UILabel!
+    @IBOutlet private(set) var stackView: UIStackView!
+    
+    private let sessionLinkView = SessionLinkView()
     
     let disposeBag = DisposeBag()
     
@@ -34,38 +39,55 @@ final class ShareViewController: UIViewController, StoryboardViewController {
         bodyView.backgroundColor = viewModel.theme.colors.background
         presentButton.setTitle(viewModel.strings.shareMyETA, for: .normal)
         
-        let tapLinkGesture = UITapGestureRecognizer(target: self, action: #selector(didTapLink(_:)))
-        sessionLinkLabel.addGestureRecognizer(tapLinkGesture)
-        sessionLinkLabel.isUserInteractionEnabled = true
+        sessionLinkView.setButtonTitle(viewModel.strings.startSharing, for: .normal)
+        sessionLinkView.tapButtonHandler = { [weak self] in
+            self?.viewModel.startSession()
+        }
+        sessionLinkView.tapLinkHandler = { [weak self] _ in
+            self?.viewModel.didTapLink()
+        }
+        
+        titleLabel.text = viewModel.strings.shareMyETA
+        stackView.insertArrangedSubview(sessionLinkView, at: 3)
+        
+        privateLabel.text = viewModel.strings.privateSwitchDescription
+        privateSwitch.onTintColor = viewModel.theme.colors.tint
+        
+        dismissButton.tintColor = viewModel.theme.colors.tint
         
         setPresentationState(.minimized, animated: false)
         addBinds()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        viewModel.endSession()
-        removeFromParent()
+        
+        durationPicker.selectRow(viewModel.durationRelay.value.row, inComponent: 0, animated: false)
     }
     
     private func addBinds() {
         disposeBag.insert([
             viewModel.presentationState.skip(1).drive(rx.presdentationState),
-            viewModel.link.drive(sessionLinkLabel.rx.text),
-            viewModel.isWorking.not().drive(startButton.rx.isEnabled),
+            viewModel.link.drive(sessionLinkView.rx.link),
+            viewModel.isWorking.not().drive(sessionLinkView.rx.isEnabled),
             viewModel.isWorking.not().drive(dismissButton.rx.isEnabled),
-            viewModel.isWorking.drive(startButton.rx.isAnimatingActivityIndicator),
+            viewModel.isWorking.drive(sessionLinkView.rx.isAnimatingActivityIndicator),
         ])
         
-        viewModel.link.drive(onNext: { [weak self] link in
-            guard let self = self else { return }
-            if link != nil {
-                self.startButton.isHidden = true
-                self.sessionLinkLabel.isHidden = false
-            } else {
-                self.startButton.isHidden = false
-                self.sessionLinkLabel.isHidden = true
-            }
+        disposeBag.insert([
+            viewModel.durationOptions.bind(to: durationPicker.rx.itemTitles) { $1 },
+            durationPicker.rx.itemSelected.bind(to: viewModel.durationRelay),
+            privateSwitch.rx.isOn <-> viewModel.privateRelay,
+        ])
+        
+        Driver.combineLatest(viewModel.isWorking, viewModel.link) {
+            $0 || $1 != nil
+        }.drive(onNext: { [weak self] sessionStarted in
+            self?.durationPicker.isUserInteractionEnabled = !sessionStarted
+            self?.durationPicker.alpha = sessionStarted ? 0.5 : 1
+            
+            self?.privateSwitch.isEnabled = !sessionStarted
+            self?.privateSwitch.alpha = sessionStarted ? 0.5 : 1
+            
+            self?.privateLabel.alpha = sessionStarted ? 0.5 : 1
         }).disposed(by: disposeBag)
+        
         
         viewModel.share.drive(onNext: { [weak self] item in
             let shareViewController = UIActivityViewController(activityItems: [item], applicationActivities: nil)
@@ -83,6 +105,7 @@ final class ShareViewController: UIViewController, StoryboardViewController {
                 headerView.isHidden = false
             }
         case .fullscreen:
+            durationPicker.selectRow(durationPicker.numberOfRows(inComponent: 0) / 2, inComponent: 0, animated: false)
             if animated {
                 fadeViews(hidingView: headerView, showingView: bodyView, withDuration: SessionsViewController.presentShareViewAnimationDuration)
             } else {
@@ -125,10 +148,6 @@ extension ShareViewController {
     @IBAction func didTapDismiss(_ sender: Any) {
         viewModel.endSession()
         viewModel.dismiss()
-    }
-    
-    @IBAction func didTapStart(_ sender: Any) {
-        viewModel.startSession()
     }
     
     @IBAction func didTapLink(_ sender: Any) {

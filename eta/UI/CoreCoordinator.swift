@@ -96,6 +96,11 @@ class CoreCoordinator: Coordinator {
             guard let self = self else { return }
             self.navigationController.present(self.userViewController(), animated: true)
         }
+        viewModel.hostingSessionHandler = { [weak self] session in
+            guard let self = self else { return }
+            let sharingViewController = self.sharingViewController(session: session)
+            self.navigationController.pushViewController(sharingViewController, animated: true)
+        }
         viewController.viewModel = viewModel
         
         let shareViewController = ShareViewController.instantiateFromStoryboard(storyboard)
@@ -118,6 +123,20 @@ class CoreCoordinator: Coordinator {
             return shareViewController
         }
         
+        return viewController
+    }
+    
+    func sharingViewController(session: Session) -> UIViewController {
+        let viewController = SharingViewController.instantiateFromStoryboard(self.storyboard)
+        let viewModel = SharingViewModel(
+            sessionIdentifier: session.identifier,
+            sessionService: self.databaseService,
+            userService: self.databaseService,
+            cloudService: self.cloudService)
+        viewModel.sharingEndedHandler = {
+            viewController.navigationController?.popViewController(animated: true)
+        }
+        viewController.viewModel = viewModel
         return viewController
     }
     

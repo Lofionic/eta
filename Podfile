@@ -9,6 +9,7 @@ target 'eta' do
   pod 'RxCocoa', '6.1.0'
 	pod 'Firebase/Auth'
   pod 'Firebase/Database'
+#	pod 'Firebase/Analytics'
 
   target 'etaTests' do
     inherit! :search_paths

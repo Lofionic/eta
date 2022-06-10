@@ -1,8 +1,5 @@
 //
-//  SessionCellViewModel.swift
-//  eta
-//
-//  Created by Chris Rivers on 18/03/2021.
+//  Lofionic ©2021
 //
 
 import Foundation
@@ -12,8 +9,10 @@ import RxSwift
 
 final class SessionCellViewModel: ViewModel {
     
+    let user: Driver<User?>
+    let username: Driver<String>
     let title: Driver<String>
-    let eta: Driver<String?>
+    let eta: Driver<String>
     let isAuthorized: Driver<Bool>
     
     let sessionIdentifier: SessionIdentifier
@@ -21,30 +20,47 @@ final class SessionCellViewModel: ViewModel {
     let userService: UserService
     let cloudService: CloudService
     
+    let theme: Theme
+    
     private let statusSubject = PublishSubject<SessionStatus>()
-    private let titleSubject = PublishSubject<String>()
-    private let etaSubject = PublishSubject<String?>()
+    
+    private let userSubject = BehaviorRelay<User?>(value: nil)
+    private let titleSubject = BehaviorRelay<String?>(value: nil)
+    private let etaSubject = BehaviorRelay<String?>(value: nil)
     
     private let authorize = PublishSubject<Void>()
     
     private let disposeBag = DisposeBag()
     
-    init(sessionIdentifier: SessionIdentifier, sessionService: SessionService, userService: UserService, cloudService: CloudService) {
+    init(
+        sessionIdentifier: SessionIdentifier,
+        sessionService: SessionService,
+        userService: UserService,
+        cloudService: CloudService,
+        theme: Theme = Theme.light)
+    {
         self.sessionIdentifier = sessionIdentifier
         self.sessionService = sessionService
         self.userService = userService
         self.cloudService = cloudService
+        self.theme = theme
         
-        title = titleSubject.asDriver(onErrorDriveWith: .never()).distinctUntilChanged()
-        eta = etaSubject.asDriver(onErrorDriveWith: .never()).distinctUntilChanged()
+        user = userSubject.asDriver()
+        username = userSubject.map {
+            if let user = $0 {
+                return user.username ?? user.email
+            }
+            return " "
+        }.asDriver(onErrorJustReturn: " ")
+        
+        title = titleSubject.asDriver().compactMap{ $0 ?? " " }
+        eta = etaSubject.asDriver().compactMap{ $0 ?? " " }
         isAuthorized = statusSubject.map { $0 == .authorized }.asDriver(onErrorJustReturn: false).distinctUntilChanged()
         
         sessionService
-            .sessionEvents(sessionIdentifier: sessionIdentifier, events: [.value])
-            .subscribe(onNext: { [weak self] event in
-                if case .value(let session) = event {
-                    self?.updateWithSession(session)
-                }
+            .sessionEvents(sessionIdentifier: sessionIdentifier)
+            .subscribe(onNext: { [weak self] session in
+                self?.updateWithSession(session)
             }, onError: { error in
                 print("Error: \(error)")
             })
@@ -61,11 +77,11 @@ final class SessionCellViewModel: ViewModel {
         formatter.maximumUnitCount = 2
         if let formattedAge = formatter.string(from: age) {
             let title = String(format: Strings.startedAgo, formattedAge)
-            titleSubject.onNext(title)
+            titleSubject.accept(title)
         }
         
         if let eta = session.eta {
-            let routeTime = TimeInterval(eta.route.time)
+            let routeTime = eta.duration
             
             let formatter = DateComponentsFormatter()
             formatter.allowedUnits = [.hour, .minute]
@@ -73,16 +89,17 @@ final class SessionCellViewModel: ViewModel {
             formatter.maximumUnitCount = 2
             
             if let formattedETA = formatter.string(from: routeTime) {
-                etaSubject.onNext(formattedETA)
+                etaSubject.accept(formattedETA)
             }
         } else {
-            etaSubject.onNext(nil)
+            etaSubject.accept(nil)
         }
         
         _ = userService
             .getUser(session.userIdentifier)
-            .subscribe(onSuccess: { user in
-                print("User is: \(String(describing: user.email))")
+            .subscribe(onSuccess: { [weak self] user in
+                guard session.userIdentifier == user.identifier else { return }
+                self?.userSubject.accept(user)
             }, onFailure: { error in
                 print("Could not get user: \(error)")
             })
