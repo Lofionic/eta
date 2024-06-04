@@ -53,7 +53,10 @@ extension FirebaseDatabaseService {
             if let error = error {
                 completion(.failure(error))
             } else {
-                if let result = try? T.decode(snapshot) {
+                if 
+                    let snapshot,
+                    let result = try? T.decode(snapshot) 
+                {
                     completion(.success(result))
                 } else {
                     completion(.failure(FirebaseDatabaseServiceError.decodingError))

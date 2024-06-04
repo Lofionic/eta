@@ -93,7 +93,8 @@ final class LocationController: NSObject {
             locationManager.stopUpdatingLocation()
         } else {
             print("Starting updating location")
-            locationManager.requestAlwaysAuthorization()
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.allowsBackgroundLocationUpdates = true
             locationManager.startUpdatingLocation()
         }

@@ -65,7 +65,10 @@ private extension FirebaseDatabaseService {
             guard let database = database else { return }
             if let error = error {
                 completion(.failure(.errorValidating(underlyingError: error)))
-            } else if snapshot.exists() {
+            } else
+                if let snapshot,
+                snapshot.exists()
+            {
                 completion(.failure(.sessionFull))
             } else {
                 let reference = database.child("/\(Keys.sessions)/\(sessionIdentifier)").child(Keys.Session.subscriberIdentifier)
